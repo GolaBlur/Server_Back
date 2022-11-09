@@ -157,4 +157,3 @@ gen
 
 ### 어플리케이션 설정 파일
 /src/main/resources/application.properties
-/src/main/resources/aws.properties
