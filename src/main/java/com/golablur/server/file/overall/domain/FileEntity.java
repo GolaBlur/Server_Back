@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.Date;
 
@@ -13,11 +14,11 @@ import java.sql.Date;
 @NoArgsConstructor
 public class FileEntity {
     String File_ID;
-    String User_ID;
+    @NotNull String User_ID;
     String Original_File_ID;
-    String Real_File_Name;
+    @NotNull String Real_File_Name;
     String Group_ID;
-    String File_Extension;
-    String Path;
+    @NotNull String File_Extension;
+    @NotNull String Path;
     Date Sysdate;
 }

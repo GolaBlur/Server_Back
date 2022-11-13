@@ -5,14 +5,17 @@ import com.golablur.server.user.domain.LoginDTO;
 import com.golablur.server.user.domain.UserEntity;
 import com.golablur.server.user.service.LoginService;
 import com.golablur.server.user.service.SignUpService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/user")
 @CrossOrigin("*")
+@Slf4j
 public class UserRestController {
 
     LoginService loginService;
@@ -26,7 +29,8 @@ public class UserRestController {
 
 
     @RequestMapping("/normal/login")
-    public String normalLogin(LoginDTO loginDTO) {
+    public UserEntity normalLogin(LoginDTO loginDTO) {
+        log.info("ID: " + loginDTO.getUser_ID() + "    PW: " + loginDTO.getUser_PW());
         return loginService.normalLogin(loginDTO);
     }
 
@@ -35,6 +39,11 @@ public class UserRestController {
         return signUpService.normalSignup(userEntity);
     }
 
+    @RequestMapping("/id/check")
+    public String idCheck(@RequestParam("User_ID") String User_ID) {
+        log.info(User_ID);
+        return signUpService.normalIDCheck(User_ID);
+    }
 
 
     // 작업 도중 로그인을 했을 경유

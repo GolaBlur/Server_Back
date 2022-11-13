@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserEntity {
-    String id;
-    String name;
-    String pw;
+    String User_ID;
+    String User_Name;
+    String User_PW;
 }

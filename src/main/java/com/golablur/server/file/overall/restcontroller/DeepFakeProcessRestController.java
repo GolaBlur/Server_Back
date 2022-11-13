@@ -14,14 +14,14 @@ public class DeepFakeProcessRestController {
     //TODO 객체 딥페이크
 
     // 하나의 이미지
-    @RequestMapping(value = "/", method= RequestMethod.GET)
+    @RequestMapping(value = "/t", method= RequestMethod.GET)
     public Map deepFakeOneImage(){
 
         return null;
     }
 
     // 하나의 비디오
-    @RequestMapping(value = "/", method= RequestMethod.GET)
+    @RequestMapping(value = "/d", method= RequestMethod.GET)
     public Map deepFakeOneVideo(){
 
         return null;
@@ -29,7 +29,7 @@ public class DeepFakeProcessRestController {
 
 
     // 여러 장의 이미지
-    @RequestMapping(value = "/", method= RequestMethod.GET)
+    @RequestMapping(value = "/s", method= RequestMethod.GET)
     public Map deepFakeALotImages(){
 
         return null;

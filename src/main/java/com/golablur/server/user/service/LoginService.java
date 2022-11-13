@@ -2,6 +2,7 @@ package com.golablur.server.user.service;
 
 import com.golablur.server.user.domain.DuringWorkDTO;
 import com.golablur.server.user.domain.LoginDTO;
+import com.golablur.server.user.domain.UserEntity;
 import com.golablur.server.user.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,18 +16,20 @@ public class LoginService {
     private UserMapper userMapper;
 
     // 일반 유저 로그인
-    public String normalLogin(LoginDTO loginDTO) {
-        if(userMapper.login(loginDTO.getId(), loginDTO.getPw()) == null) {
+    public UserEntity normalLogin(LoginDTO loginDTO) {
+        UserEntity userEntity = userMapper.login(loginDTO.getUser_ID(), loginDTO.getUser_PW());
+        if(userEntity == null) {
             log.error("login: 로그인에 실패했습니다.");
-            return "400";
+            return null;
         }
-        return "200";
+        log.info("ID: " + userEntity.getUser_ID()+ "   PW: " + userEntity.getUser_PW() + "    Name: " + userEntity.getUser_Name());
+        return userEntity;
 
     }
 
     // 작업 도중 로그인
     public String duringWork(DuringWorkDTO duringWorkDTO) {
-        if(userMapper.updateFileData(duringWorkDTO.getId(), duringWorkDTO.getSessionToken())==0) {
+        if(userMapper.updateFileData(duringWorkDTO.getUser_ID(), duringWorkDTO.getSessionToken())==0) {
             log.error("duringWork: 파일 데이터의 업데이트를 실패했습니다.");
             return "500";
         }
@@ -36,11 +39,11 @@ public class LoginService {
 
     // 작업 도중 로그인 ( 일반 유저 )
     public String normalLoginDuringWork(DuringWorkDTO duringWorkDTO) {
-        if(userMapper.login(duringWorkDTO.getId(), duringWorkDTO.getPw()) == null) {
+        if(userMapper.login(duringWorkDTO.getUser_ID(), duringWorkDTO.getUser_PW()) == null) {
             log.error("login: 로그인에 실패했습니다.");
             return "400";
         }
-        if(userMapper.updateFileData(duringWorkDTO.getId(), duringWorkDTO.getSessionToken()) == 0) {
+        if(userMapper.updateFileData(duringWorkDTO.getUser_ID(), duringWorkDTO.getSessionToken()) == 0) {
             log.error("duringWork: 파일 데이터의 업데이트를 실패했습니다.");
             return "500";
         }

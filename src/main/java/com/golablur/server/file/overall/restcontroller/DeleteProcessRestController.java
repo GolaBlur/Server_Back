@@ -15,14 +15,14 @@ public class DeleteProcessRestController {
     //TODO 객체 삭제
 
     // 하나의 이미지
-    @RequestMapping(value = "/", method= RequestMethod.GET)
+    @RequestMapping(value = "/t", method= RequestMethod.GET)
     public Map deleteOneImage(){
 
         return null;
     }
 
     // 여러 장의 이미지
-    @RequestMapping(value = "/", method= RequestMethod.GET)
+    @RequestMapping(value = "/d", method= RequestMethod.GET)
     public Map deleteALotImages(){
 
         return null;

@@ -14,14 +14,14 @@ public class MosaicProcessRestController {
     //TODO 객체 모자이크
 
     // 하나의 이미지
-    @RequestMapping(value = "/", method= RequestMethod.GET)
+    @RequestMapping(value = "/t", method= RequestMethod.GET)
     public Map mosaicOneImage(){
 
         return null;
     }
 
     // 하나의 비디오
-    @RequestMapping(value = "/", method= RequestMethod.GET)
+    @RequestMapping(value = "/d", method= RequestMethod.GET)
     public Map mosaicOneVideo(){
 
         return null;
@@ -29,7 +29,7 @@ public class MosaicProcessRestController {
 
 
     // 여러 장의 이미지
-    @RequestMapping(value = "/", method= RequestMethod.GET)
+    @RequestMapping(value = "/s", method= RequestMethod.GET)
     public Map mosaicALotImages(){
 
         return null;
