@@ -1,7 +1,7 @@
 package com.golablur.server.file.ai.controller;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
-@Controller
+@Component
 public class AIController {
 }

@@ -1,22 +1,22 @@
 package com.golablur.server.user.mapper;
 
-import com.golablur.server.user.domain.LoginDTO;
-import com.golablur.server.user.domain.UserDTO;
+import com.golablur.server.user.domain.UserEntity;
+import org.apache.ibatis.annotations.*;
 
-import java.util.List;
 
+@Mapper
 public interface UserMapper {
 
-    public boolean findUser(String user_id);
+    @Select("SELECT * FROM user WHERE User_ID = #{id}")
+    public UserEntity findUser(@Param("id") String id);
 
-    public String signUp(UserDTO userDTO);
+    @Insert("INSERT INTO user VALUES (#{id},#{name},#{pw})")
+    public int signUp(@Param("id") String id, @Param("name") String name, @Param("pw") String pw);
 
-    public boolean login(LoginDTO loginDTO);
+    @Select("SELECT * FROM user WHERE User_ID = #{id} and User_PW = #{pw}")
+    public UserEntity login(@Param("id") String id, @Param("pw") String pw);
 
-    public List getRowData(String sessionToken);
-
-    public boolean removeRowData(String sessionToken);
-
-    public boolean updateRowData(String user_id, List rowData);
+    @Update("UPDATE user SET User_ID = #{sessionToken} WHERE User_ID = #{id}")
+    public int updateFileData(@Param("id") String id, @Param("sessionToken") String sessionToken);
 
 }
