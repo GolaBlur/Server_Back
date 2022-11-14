@@ -58,7 +58,7 @@ public class UserRestController {
     }
 
     @RequestMapping("/normal/login/duringWork")
-    public String normalLoginDuringWork(DuringWorkDTO duringWorkDTO) {
+    public UserEntity normalLoginDuringWork(DuringWorkDTO duringWorkDTO) {
         return loginService.normalLoginDuringWork(duringWorkDTO);
     }
 

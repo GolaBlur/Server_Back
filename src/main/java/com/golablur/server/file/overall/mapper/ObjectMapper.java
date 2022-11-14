@@ -1,4 +1,4 @@
-package com.golablur.server.file.object.mapper;
+package com.golablur.server.file.overall.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
