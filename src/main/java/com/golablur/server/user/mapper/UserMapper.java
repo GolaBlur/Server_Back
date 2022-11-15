@@ -19,4 +19,12 @@ public interface UserMapper {
     @Update("UPDATE user SET User_ID = #{sessionToken} WHERE User_ID = #{id}")
     public int updateFileData(@Param("id") String id, @Param("sessionToken") String sessionToken);
 
+    @Select("SELECT * FROM user WHERE User_ID = #{id} and User_PW = #{pw}")
+    public UserEntity findUserPw(@Param("id") String id, @Param("pw") String pw);
+
+
+    @Delete("DELETE FROM user WHERE User_ID = #{id}")
+    public int deleteUser(@Param("id") String user_id);
+
+
 }

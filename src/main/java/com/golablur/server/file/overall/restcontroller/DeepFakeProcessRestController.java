@@ -11,7 +11,7 @@ import java.util.Map;
 @RequestMapping("/file/process/deepFake")
 @CrossOrigin("*")
 public class DeepFakeProcessRestController {
-    //TODO 객체 딥페이크
+    // TODO 객체 딥페이크
 
     // 하나의 이미지
     @RequestMapping(value = "/t", method= RequestMethod.GET)

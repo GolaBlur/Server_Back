@@ -1,5 +1,7 @@
 package com.golablur.server.user.service;
 
+import com.golablur.server.file.overall.mapper.FileMapper;
+import com.golablur.server.file.overall.mapper.ObjectMapper;
 import com.golablur.server.user.domain.UserEntity;
 import com.golablur.server.user.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +14,10 @@ public class SignUpService {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private FileMapper fileMapper;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     // 일반 유저 회원가입
     public String normalSignup(UserEntity userEntity) {
@@ -22,7 +28,7 @@ public class SignUpService {
         return "200";
     }
 
-    public String normalIDCheck(String id) {
+    public String IDCheck(String id) {
         if(userMapper.findUser(id) != null) {
             log.error("findUser: 해당 유저가 이미 있습니다.");
             return "400";

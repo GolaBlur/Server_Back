@@ -1,6 +1,6 @@
-package com.golablur.server.file.loader.getFileData.service;
+package com.golablur.server.file.loader.service.getFileData;
 
-import com.golablur.server.file.overall.mapper.LoaderMapper;
+import com.golablur.server.file.overall.mapper.FileMapper;
 import com.golablur.server.file.overall.domain.FileEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import java.util.List;
 public class getFileDataService {
 
     @Autowired
-    LoaderMapper mapper;
+    FileMapper mapper;
 
     public FileEntity getOneFileData(String file_id) {
         return mapper.getFileDataByFile_ID(file_id);

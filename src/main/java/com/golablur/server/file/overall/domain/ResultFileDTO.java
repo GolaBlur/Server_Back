@@ -5,14 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FileObjectDTO {
-    private FileEntity file;
-    private List<ObjectEntity> detectionObjectList;
-    private List<ObjectEntity> processingObjectList;
+public class ResultFileDTO {
+    private String originalFile_ID;
+    private String processedFile_ID;
 }

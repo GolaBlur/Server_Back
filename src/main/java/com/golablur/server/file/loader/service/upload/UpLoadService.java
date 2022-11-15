@@ -1,6 +1,6 @@
-package com.golablur.server.file.loader.upload.service;
+package com.golablur.server.file.loader.service.upload;
 
-import com.golablur.server.file.overall.mapper.LoaderMapper;
+import com.golablur.server.file.overall.mapper.FileMapper;
 import com.golablur.server.file.overall.domain.FileEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import java.util.List;
 public class UpLoadService {
 
     @Autowired
-    LoaderMapper mapper;
+    FileMapper mapper;
 
 
     public String uploadList(List fileList) {

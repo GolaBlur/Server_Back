@@ -11,7 +11,7 @@ import java.util.Map;
 @RequestMapping("/file/process/mosaic")
 @CrossOrigin("*")
 public class MosaicProcessRestController {
-    //TODO 객체 모자이크
+    // TODO 객체 모자이크
 
     // 하나의 이미지
     @RequestMapping(value = "/t", method= RequestMethod.GET)

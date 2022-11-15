@@ -1,15 +1,12 @@
 package com.golablur.server.file.overall.mapper;
 
 import com.golablur.server.file.overall.domain.FileEntity;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
 @Mapper
-public interface LoaderMapper {
+public interface FileMapper {
 
 
     // Upload File Data
@@ -34,4 +31,8 @@ public interface LoaderMapper {
     // Get File Data by group_id
     @Select("SELECT * FROM file WHERE Group_ID = #{group_id}")
     List<FileEntity> getFileDataByGroup_ID(@Param("group_id") String group_id);
+
+
+    @Delete("DELETE FROM file WHERE User_ID = #{id}")
+    int deleteFile(@Param("id") String user_id);
 }

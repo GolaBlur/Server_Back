@@ -12,7 +12,7 @@ import java.util.Map;
 @RequestMapping("/file/process/delete")
 @CrossOrigin("*")
 public class DeleteProcessRestController {
-    //TODO 객체 삭제
+    // TODO 객체 삭제
 
     // 하나의 이미지
     @RequestMapping(value = "/t", method= RequestMethod.GET)

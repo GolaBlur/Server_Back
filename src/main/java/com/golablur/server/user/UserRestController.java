@@ -5,6 +5,7 @@ import com.golablur.server.user.domain.LoginDTO;
 import com.golablur.server.user.domain.UserEntity;
 import com.golablur.server.user.service.LoginService;
 import com.golablur.server.user.service.SignUpService;
+import com.golablur.server.user.service.UserDeleteService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,14 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class UserRestController {
 
-    LoginService loginService;
-    SignUpService signUpService;
-
     @Autowired
-    public UserRestController(SignUpService signUpService, LoginService loginService) {
-        this.loginService = loginService;
-        this.signUpService = signUpService;
-    }
+    private LoginService loginService;
+    @Autowired
+    private SignUpService signUpService;
+    @Autowired
+    private UserDeleteService userDeleteService;
+
 
 
     @RequestMapping("/normal/login")
@@ -39,12 +39,25 @@ public class UserRestController {
         return signUpService.normalSignup(userEntity);
     }
 
+    @RequestMapping("/social/signup")
+    public String socialSignup(UserEntity userEntity) {
+        if(signUpService.IDCheck(userEntity.getUser_ID()).equals("400")){
+            return "400";
+        }
+        log.info("signup successful: "+ userEntity.getUser_ID());
+        return signUpService.normalSignup(userEntity);
+    }
+
     @RequestMapping("/id/check")
     public String idCheck(@RequestParam("User_ID") String User_ID) {
         log.info(User_ID);
-        return signUpService.normalIDCheck(User_ID);
+        return signUpService.IDCheck(User_ID);
     }
 
+    @RequestMapping("/delete")
+    public int deleteUser(@RequestParam("User_ID") String User_ID){
+        return userDeleteService.userDelete(User_ID);
+    }
 
     // 작업 도중 로그인을 했을 경유
     // 작업하던 토큰값의 데이터를 로그인한 토큰값의 데이터와 합쳐줘야함.
