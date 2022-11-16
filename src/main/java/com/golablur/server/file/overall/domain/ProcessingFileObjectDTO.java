@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AIFunctionDTO {
-    private FileEntity file;
-    private List<ObjectEntity> processingObjectList;
+public class ProcessingFileObjectDTO {
+    private String File_ID;
+    private List<String> Object_IDList;
 }

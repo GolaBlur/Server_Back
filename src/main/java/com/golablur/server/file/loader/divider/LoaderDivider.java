@@ -2,7 +2,7 @@ package com.golablur.server.file.loader.divider;
 
 import com.golablur.server.file.loader.service.getFileData.getFileDataService;
 import com.golablur.server.file.loader.service.result.ResultService;
-import com.golablur.server.file.loader.service.upload.UpLoadService;
+import com.golablur.server.file.loader.service.storeFileData.StoreFileDataService;
 import com.golablur.server.file.overall.domain.FileEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ import java.util.List;
 public class LoaderDivider {
 
     @Autowired
-    private UpLoadService upLoadService;
+    private StoreFileDataService storeFileDataService;
     @Autowired
     private getFileDataService getFileDataService;
     @Autowired
@@ -21,11 +21,11 @@ public class LoaderDivider {
 
 
     public String uploadList(List fileList) {
-        return upLoadService.uploadList(fileList);
+        return storeFileDataService.storeFileList(fileList);
     }
 
     public String uploadOne(FileEntity file) {
-        return upLoadService.uploadOne(file);
+        return storeFileDataService.storeFile(file);
     }
 
     public FileEntity getOneFileData(String file_id) {

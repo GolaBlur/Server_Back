@@ -16,3 +16,4 @@ public class FileObjectDTO {
     private List<ObjectEntity> detectionObjectList;
     private List<ObjectEntity> processingObjectList;
 }
+

@@ -1,6 +1,6 @@
 package com.golablur.server.file.overall.restcontroller;
 
-import com.golablur.server.file.ai.divider.AIDivider;
+import com.golablur.server.file.ai.divider.ObjectDetectionDivider;
 import com.golablur.server.file.loader.divider.LoaderDivider;
 import com.golablur.server.file.overall.domain.FileEntity;
 import com.golablur.server.file.overall.domain.FileObjectDTO;
@@ -19,7 +19,7 @@ public class FileLoaderRestController {
     @Autowired
     private LoaderDivider loaderDivider;
     @Autowired
-    private AIDivider aiDivider;
+    private ObjectDetectionDivider objectDetectionDivider;
 
 
     // 하나의 파일 업로드 및 객체 탐지 후 반환
@@ -31,7 +31,7 @@ public class FileLoaderRestController {
             return null;
         }
         // 객체 탐지 후 반환
-        FileObjectDTO fileObject = aiDivider.getObjects(file);
+        FileObjectDTO fileObject = objectDetectionDivider.getObjects(file);
         if(fileObject == null) {
             log.error("getObjects failed");
             return null;
@@ -48,7 +48,7 @@ public class FileLoaderRestController {
             return null;
         }
         // 객체 탐지 후 반환
-        List fileObjectList = aiDivider.getObjectsList(fileList);
+        List fileObjectList = objectDetectionDivider.getObjectsList(fileList);
         if(fileObjectList == null) {
             log.error("getObjectsList failed");
             return null;
