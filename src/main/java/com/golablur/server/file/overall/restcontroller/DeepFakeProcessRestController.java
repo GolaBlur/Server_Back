@@ -1,18 +1,14 @@
 package com.golablur.server.file.overall.restcontroller;
 
 import com.golablur.server.file.ai.divider.DeepFakeDivider;
-import com.golablur.server.file.ai.divider.ObjectDetectionDivider;
-import com.golablur.server.file.overall.domain.FileEntity;
 import com.golablur.server.file.overall.domain.FileObjectDTO;
 import com.golablur.server.file.overall.domain.ProcessingFileObjectDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/file/process/deepFake")

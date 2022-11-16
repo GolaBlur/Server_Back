@@ -1,10 +1,10 @@
 package com.golablur.server.file.ai.divider;
 
-import com.golablur.server.file.ai.service.StoreObjectService;
-import com.golablur.server.file.ai.service.deepFake.DeepFakeService;
-import com.golablur.server.file.ai.service.latentDiffusion.LatentDiffusionService;
+import com.golablur.server.file.ai.service.ObjectService;
+import com.golablur.server.file.ai.service.SendToAPIService;
 import com.golablur.server.file.loader.service.storeFileData.StoreFileDataService;
 import com.golablur.server.file.overall.domain.AIFunctionDTO;
+import com.golablur.server.file.overall.domain.FileEntity;
 import com.golablur.server.file.overall.domain.FileObjectDTO;
 import com.golablur.server.file.overall.domain.ProcessingFileObjectDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -19,11 +19,11 @@ import java.util.List;
 public class LatentDiffusionDivider {
 
     @Autowired
-    private StoreObjectService storeObjectService;
+    private ObjectService objectService;
     @Autowired
     private StoreFileDataService storeFileDataService;
     @Autowired
-    private LatentDiffusionService latentDiffusionService;
+    private SendToAPIService send;
 
     // TODO 객체 삭제
     // 객체 삭제 후 반환
@@ -31,20 +31,21 @@ public class LatentDiffusionDivider {
 
     public FileObjectDTO deleteOneImage(ProcessingFileObjectDTO fileObject) {
         // DB에 접근하여 AIFUnctionDTO 를 채운다.
-        AIFunctionDTO aiFunctionDTO = storeObjectService.getAIFunctionDTO(fileObject);
+        AIFunctionDTO aiFunctionDTO = objectService.getAIFunctionDTO(fileObject);
         // AIFUnctionDTO 를 AI API 로 전송하고 처리된 파일을 반환 받는다.
-        FileObjectDTO fileObjectDTO = latentDiffusionService.processDeleteOneImage(aiFunctionDTO);
-        if(fileObjectDTO == null){
+        FileEntity processedFile = send.processDeleteOneImage(aiFunctionDTO);
+        if(processedFile == null){
             log.error("deleteOneImage process failed");
             return null;
         }
         // 처리된 파일을 DB에 저장한다.
-        if(storeFileDataService.storeFile(fileObjectDTO.getFile()).equals("500")){
+        if(storeFileDataService.storeFile(processedFile).equals("500")){
             log.error("deleteOneImage storeFile failed");
             return null;
         }
         log.info("DeleteOneImage successful");
-        return null;
+        //
+        return objectService.returnFileObjectByFile(processedFile);
     }
 
 

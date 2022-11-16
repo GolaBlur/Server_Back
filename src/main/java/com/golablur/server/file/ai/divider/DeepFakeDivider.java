@@ -1,9 +1,10 @@
 package com.golablur.server.file.ai.divider;
 
-import com.golablur.server.file.ai.service.StoreObjectService;
-import com.golablur.server.file.ai.service.deepFake.DeepFakeService;
+import com.golablur.server.file.ai.service.ObjectService;
+import com.golablur.server.file.ai.service.SendToAPIService;
 import com.golablur.server.file.loader.service.storeFileData.StoreFileDataService;
 import com.golablur.server.file.overall.domain.AIFunctionDTO;
+import com.golablur.server.file.overall.domain.FileEntity;
 import com.golablur.server.file.overall.domain.FileObjectDTO;
 import com.golablur.server.file.overall.domain.ProcessingFileObjectDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -19,59 +20,60 @@ public class DeepFakeDivider {
 
 
     @Autowired
-    private StoreObjectService storeObjectService;
+    private ObjectService objectService;
     @Autowired
     private StoreFileDataService storeFileDataService;
     @Autowired
-    private DeepFakeService deepFakeService;
+    private SendToAPIService send;
 
     // TODO 딥페이크
     // 사람 딥페이크 후 반환
 
     public FileObjectDTO deepFakeOneImage(ProcessingFileObjectDTO fileObject) {
         // DB에 접근하여 AIFUnctionDTO 를 채운다.
-        AIFunctionDTO aiFunctionDTO = storeObjectService.getAIFunctionDTO(fileObject);
+        AIFunctionDTO aiFunctionDTO = objectService.getAIFunctionDTO(fileObject);
         if (aiFunctionDTO == null) {
             log.error("deepFakeOneImage getAIFunctionDTO failed");
             return null;
         }
         // AIFUnctionDTO 를 AI API 로 전송하고 처리된 파일을 반환 받는다.
-        FileObjectDTO fileObjectDTO = DeepFakeService.processFakeOneImage(aiFunctionDTO);
-        if(fileObjectDTO == null){
+        FileEntity processedFile = send.processFakeOneImage(aiFunctionDTO);
+        if(processedFile == null){
             log.error("deepFakeOneImage process failed");
             return null;
         }
         // 처리된 파일을 DB에 저장한다.
-        if(storeFileDataService.storeFile(fileObjectDTO.getFile()).equals("500")){
+        if(storeFileDataService.storeFile(processedFile).equals("500")){
             log.error("deepFakeOneImage storeFile failed");
             return null;
         }
         log.info("deepFakeOneImage successful");
-        return fileObjectDTO;
+        //
+        return objectService.returnFileObjectByFile(processedFile);
     }
 
 
     public FileObjectDTO deepFakeOneVideo(ProcessingFileObjectDTO fileObject) {
         // DB에 접근하여 AIFUnctionDTO 를 채운다.
-        AIFunctionDTO aiFunctionDTO = storeObjectService.getAIFunctionDTO(fileObject);
+        AIFunctionDTO aiFunctionDTO = objectService.getAIFunctionDTO(fileObject);
         if (aiFunctionDTO == null) {
             log.error("deepFakeOneVideo getAIFunctionDTO failed");
             return null;
         }
         // AIFUnctionDTO 를 AI API 로 전송하고 처리된 파일을 반환 받는다.
-        FileObjectDTO fileObjectDTO = DeepFakeService.processFakeOneVideo(aiFunctionDTO);
-        if (fileObjectDTO == null) {
+        FileEntity processedFile = send.processFakeOneVideo(aiFunctionDTO);
+        if (processedFile == null) {
             log.error("deepFakeOneVideo process failed");
             return null;
         }
         // 처리된 파일을 DB에 저장한다.
-        storeFileDataService.storeFile(fileObjectDTO.getFile());
-        if(storeFileDataService.storeFile(fileObjectDTO.getFile()).equals("500")){
+        if(storeFileDataService.storeFile(processedFile).equals("500")){
             log.error("deepFakeOneVideo storeFile failed");
             return null;
         }
         log.info("deepFakeOneVideo successful");
-        return null;
+        //
+        return objectService.returnFileObjectByFile(processedFile);
     }
 
     public List<FileObjectDTO> deepFakeALotImages(List<ProcessingFileObjectDTO> fileObjectList) {

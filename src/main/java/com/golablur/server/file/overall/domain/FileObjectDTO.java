@@ -14,6 +14,6 @@ import java.util.List;
 public class FileObjectDTO {
     private FileEntity file;
     private List<ObjectEntity> detectionObjectList;
-    private List<ObjectEntity> processingObjectList;
+    private List<ObjectEntity> processedObjectList;
 }
 

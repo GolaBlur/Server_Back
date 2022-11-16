@@ -14,11 +14,14 @@ public interface ObjectMapper {
     int storeObject(ObjectEntity object);
 
     @Delete("DELETE FROM object WHERE File_ID = #{file_id}")
-    int deleteObjects(@Param("file_id") String file_id);
-
-    @Delete("DELETE FROM object WHERE File_ID = #{file_id}")
     int deleteObject(FileEntity fileEntity);
 
-    @Select("SELECT * FROM object WHERE File_ID = #{File_ID}")
-    List<ObjectEntity> getObjectsByFileID(FileEntity file);
+    @Select("SELECT * FROM object WHERE File_ID = #{File_ID} and Processed IS false")
+    List<ObjectEntity> getDetectionObjectListByFile(FileEntity file);
+
+    @Select("SELECT * FROM object WHERE File_ID = #{File_ID} and Processed IS true")
+    List<ObjectEntity> getProcessedObjectListByFile(FileEntity file);
+
+    @Select("SELECT * FROM object WHERE Object_ID = #{id}")
+    ObjectEntity getObjectListByObjectID(@Param("id") String Object_ID);
 }
