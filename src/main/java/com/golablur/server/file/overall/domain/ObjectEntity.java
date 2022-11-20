@@ -14,7 +14,6 @@ public class ObjectEntity {
     @NotNull private String Object_ID;
     @NotNull private String File_ID;
     @NotNull private String Object_Name;
-    @NotNull private String Object_Count;
-//    @NotNull private boolean Processed;
+    private String Processed_File_ID;
     @NotNull private String Path;
 }

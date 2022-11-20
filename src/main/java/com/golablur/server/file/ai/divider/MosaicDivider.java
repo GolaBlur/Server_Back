@@ -44,7 +44,8 @@ public class MosaicDivider {
             return null;
         }
         log.info("MosaicOneImage successful");
-        //
+        // 처리된 object 들의 processedFileID 값을 수정해준다.
+
         return objectService.returnFileObjectByFile(processedFile);
     }
 
@@ -64,7 +65,8 @@ public class MosaicDivider {
             return null;
         }
         log.info("MosaicOneVideo successful");
-        //
+        // 처리된 object 들의 processedFileID 값을 수정해준다.
+
         return objectService.returnFileObjectByFile(processedFile);
     }
 
@@ -81,6 +83,8 @@ public class MosaicDivider {
             cnt++;
         }
         log.info("MosaicALotImages successful");
+        // 처리된 object 들의 processedFileID 값을 수정해준다.
+
         return processedList;
     }
 

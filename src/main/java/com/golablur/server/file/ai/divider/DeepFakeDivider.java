@@ -48,7 +48,8 @@ public class DeepFakeDivider {
             return null;
         }
         log.info("deepFakeOneImage successful");
-        //
+        // 처리된 object 들의 processedFileID 값을 수정해준다.
+
         return objectService.returnFileObjectByFile(processedFile);
     }
 
@@ -72,7 +73,8 @@ public class DeepFakeDivider {
             return null;
         }
         log.info("deepFakeOneVideo successful");
-        //
+        // 처리된 object 들의 processedFileID 값을 수정해준다.
+
         return objectService.returnFileObjectByFile(processedFile);
     }
 
@@ -89,6 +91,8 @@ public class DeepFakeDivider {
             cnt++;
         }
         log.info("deepFakeALotImages successful");
+        // 처리된 object 들의 processedFileID 값을 수정해준다.
+
         return processedList;
     }
 

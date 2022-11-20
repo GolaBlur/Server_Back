@@ -44,7 +44,8 @@ public class LatentDiffusionDivider {
             return null;
         }
         log.info("DeleteOneImage successful");
-        //
+        // 처리된 object 들의 processedFileID 값을 수정해준다.
+
         return objectService.returnFileObjectByFile(processedFile);
     }
 
@@ -62,6 +63,8 @@ public class LatentDiffusionDivider {
             cnt++;
         }
         log.info("DeleteALotImages successful");
+        // 처리된 object 들의 processedFileID 값을 수정해준다.
+
         return processedList;
     }
 
