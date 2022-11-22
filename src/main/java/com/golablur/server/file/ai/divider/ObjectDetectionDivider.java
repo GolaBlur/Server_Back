@@ -30,11 +30,11 @@ public class ObjectDetectionDivider {
         FileObjectDTO fileObjectDTO =
                 FileObjectDTO.builder()
                         .file(fileEntity)
-                        .detectionObjectList(
+                        .objectList(
                                 send.detectObjects(fileEntity)
                         ).build();
         // DB에 저장
-        objectService.storeObjects(fileObjectDTO.getDetectionObjectList());
+        objectService.storeObjects(fileObjectDTO.getObjectList());
         return fileObjectDTO;
     }
 

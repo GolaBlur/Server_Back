@@ -13,7 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 public class FileObjectDTO {
     private FileEntity file;
-    private List<ObjectEntity> detectionObjectList;
-    private List<ObjectEntity> processedObjectList;
+    private List<ObjectEntity> objectList;
 }
 

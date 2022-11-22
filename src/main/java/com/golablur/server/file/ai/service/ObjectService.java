@@ -13,7 +13,6 @@ import java.util.List;
 @Service
 @Slf4j
 public class ObjectService {
-    // TODO - DB 접근을 위한 서비스
 
     @Autowired
     ObjectMapper objectMapper;
@@ -33,7 +32,7 @@ public class ObjectService {
         return "200";
     }
 
-    public AIFunctionDTO getAIFunctionDTO(ProcessingFileObjectDTO fileObject) {
+    public FileObjectDTO getFileObjectDTO(ProcessingFileObjectDTO fileObject) {
         List<ObjectEntity> objectList = new ArrayList<>();
         for (String id : fileObject.getObject_IDList()) {
             ObjectEntity object = objectMapper.getObjectListByObjectID(id);
@@ -42,9 +41,9 @@ public class ObjectService {
             }
             objectList.add(object);
         }
-        return AIFunctionDTO.builder()
+        return FileObjectDTO.builder()
                 .file(fileMapper.getFileDataByFile_ID(fileObject.getFile_ID()))
-                .processingObjectList(objectList)
+                .objectList(objectList)
                 .build();
     }
 
@@ -52,8 +51,7 @@ public class ObjectService {
     public FileObjectDTO returnFileObjectByFile(FileEntity file) {
         return FileObjectDTO.builder()
                 .file(file)
-                .detectionObjectList(objectMapper.getDetectionObjectListByFile(file))
-                .processedObjectList(objectMapper.getProcessedObjectListByFile(file))
+                .objectList(objectMapper.getDetectionObjectListByFile(file))
                 .build();
     }
 

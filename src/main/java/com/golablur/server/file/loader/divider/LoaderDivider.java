@@ -32,14 +32,16 @@ public class LoaderDivider {
         return getFileDataService.getOneFileData(file_id);
     }
 
-    public List getFileListData(String group_id) {
+    public List<FileEntity> getFileListData(String group_id) {
         return getFileDataService.getFileListData(group_id);
     }
 
-    public List getResultList(String user_id) {
-        return resultService.getResultList(user_id);
+
+    public String saveCustomImage(FileEntity result) {
+        // DB에 결과물 파일 정보 저장
+        storeFileDataService.storeFile(result);
+        // DB에 원본 파일의 데이터 변경
+        storeFileDataService.updateProcessedFileData(result.getOriginal_File_ID());
+        return "200";
     }
-
-
-
 }

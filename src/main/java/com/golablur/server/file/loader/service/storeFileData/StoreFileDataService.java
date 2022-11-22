@@ -31,6 +31,7 @@ public class StoreFileDataService {
     }
 
     public String storeFile(FileEntity file) {
+        log.info("file"+file);
         if(mapper.uploadOriginalFile(file) == 0) {
             log.error("파일 데이터의 DB 저장을 실패했습니다.");
             return "500";
@@ -39,4 +40,12 @@ public class StoreFileDataService {
         return "200";
     }
 
+    public String updateProcessedFileData(String original_id) {
+        log.info("original_id"+original_id);
+        if(mapper.updateProcessedFileData(original_id) == 0){
+            log.error("Process file data update failed");
+            return "500";
+        }
+        return "200";
+    }
 }

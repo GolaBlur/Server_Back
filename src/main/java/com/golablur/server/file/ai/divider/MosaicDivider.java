@@ -3,7 +3,6 @@ package com.golablur.server.file.ai.divider;
 import com.golablur.server.file.ai.service.ObjectService;
 import com.golablur.server.file.ai.service.SendToAPIService;
 import com.golablur.server.file.loader.service.storeFileData.StoreFileDataService;
-import com.golablur.server.file.overall.domain.AIFunctionDTO;
 import com.golablur.server.file.overall.domain.FileEntity;
 import com.golablur.server.file.overall.domain.FileObjectDTO;
 import com.golablur.server.file.overall.domain.ProcessingFileObjectDTO;
@@ -26,14 +25,13 @@ public class MosaicDivider {
     private SendToAPIService send;
 
 
-    // TODO 객체 모자이크
     //
 
-    public FileObjectDTO mosaicOneImage(ProcessingFileObjectDTO fileObject) {
+    public FileEntity mosaicOneImage(ProcessingFileObjectDTO fileObject) {
         // DB에 접근하여 AIFUnctionDTO 를 채운다.
-        AIFunctionDTO aiFunctionDTO = objectService.getAIFunctionDTO(fileObject);
+        FileObjectDTO fileObjectDTO = objectService.getFileObjectDTO(fileObject);
         // AIFUnctionDTO 를 AI API 로 전송하고 처리된 파일을 반환 받는다.
-        FileEntity processedFile = send.processMosaicOneImage(aiFunctionDTO);
+        FileEntity processedFile = send.processMosaicOneImage(fileObjectDTO);
         if(processedFile == null){
             log.error("mosaicOneImage process failed");
             return null;
@@ -43,18 +41,17 @@ public class MosaicDivider {
             log.error("mosaicOneImage storeFile failed");
             return null;
         }
+        storeFileDataService.updateProcessedFileData(processedFile.getOriginal_File_ID());
         log.info("MosaicOneImage successful");
-        // 처리된 object 들의 processedFileID 값을 수정해준다.
-
-        return objectService.returnFileObjectByFile(processedFile);
+        return processedFile;
     }
 
 
-    public FileObjectDTO mosaicOneVideo(ProcessingFileObjectDTO fileObject) {
+    public FileEntity mosaicOneVideo(ProcessingFileObjectDTO fileObject) {
         // DB에 접근하여 AIFUnctionDTO 를 채운다.
-        AIFunctionDTO aiFunctionDTO = objectService.getAIFunctionDTO(fileObject);
+        FileObjectDTO fileObjectDTO = objectService.getFileObjectDTO(fileObject);
         // AIFUnctionDTO 를 AI API 로 전송하고 처리된 파일을 반환 받는다.
-        FileEntity processedFile = send.processMosaicOneVideo(aiFunctionDTO);
+        FileEntity processedFile = send.processMosaicOneVideo(fileObjectDTO);
         if(processedFile == null){
             log.error("mosaicOneVideo process failed");
             return null;
@@ -64,27 +61,24 @@ public class MosaicDivider {
             log.error("mosaicOneVideo storeFile failed");
             return null;
         }
+        storeFileDataService.updateProcessedFileData(processedFile.getOriginal_File_ID());
         log.info("MosaicOneVideo successful");
-        // 처리된 object 들의 processedFileID 값을 수정해준다.
-
-        return objectService.returnFileObjectByFile(processedFile);
+        return processedFile;
     }
 
-    public List<FileObjectDTO> mosaicALotImages(List<ProcessingFileObjectDTO> fileObjectList) {
+    public List<FileEntity> mosaicALotImages(List<ProcessingFileObjectDTO> fileObjectList) {
         // 하나의 이미지 처리를 반복
-        List<FileObjectDTO> processedList = new ArrayList<>();
+        List<FileEntity> processedList = new ArrayList<>();
         int cnt = 0;
         for(ProcessingFileObjectDTO fileObject : fileObjectList){
-            FileObjectDTO fileObjectDTO = mosaicOneImage(fileObject);
-            if (fileObjectDTO == null) {
+            FileEntity fileEntity = mosaicOneImage(fileObject);
+            if (fileEntity == null) {
                 log.error("mosaicALotImages failed : index "+cnt);
             }
-            processedList.add(fileObjectDTO);
+            processedList.add(fileEntity);
             cnt++;
         }
         log.info("MosaicALotImages successful");
-        // 처리된 object 들의 processedFileID 값을 수정해준다.
-
         return processedList;
     }
 

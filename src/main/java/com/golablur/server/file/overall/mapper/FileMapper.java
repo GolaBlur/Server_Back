@@ -35,4 +35,22 @@ public interface FileMapper {
 
     @Delete("DELETE FROM file WHERE User_ID = #{id}")
     int deleteFile(@Param("id") String user_id);
+
+    @Select("SELECT DISTINCT Group_ID FROM file WHERE User_ID = #{id} and Original_File_ID IS NULL and Group_ID IS NOT NULL")
+    List<String> getNonProcessedGroupByUser_ID(@Param("id") String user_id);
+
+    @Select("SELECT * FROM file WHERE User_ID = #{id} and Original_File_ID IS NOT NULL Order by Sysdate")
+    List<FileEntity> getProcessedFileDataByUser_ID(@Param("id") String user_id);
+
+    @Select("SELECT * FROM file " +
+            "WHERE User_ID = #{id} and Original_File_ID IS NULL and " +
+            "(File_Extension = '.jpg' OR File_Extension = '.jpeg' OR File_Extension = '.png')")
+    List<FileEntity> getNonProcessedImageDataByUser_ID(@Param("id") String user_id);
+
+    @Select("SELECT * FROM file where User_ID = #{id} and Original_File_ID IS NULL and " +
+            "File_Extension = '.mp4'")
+    List<FileEntity> getNonProcessedVideoByUser_ID(@Param("id") String user_id);
+
+    @Update("UPDATE file SET Original_File_ID = #{id} WHERE File_ID = #{id}")
+    int updateProcessedFileData(@Param("id") String original_id);
 }

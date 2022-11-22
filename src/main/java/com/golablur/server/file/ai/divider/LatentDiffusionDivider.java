@@ -3,7 +3,6 @@ package com.golablur.server.file.ai.divider;
 import com.golablur.server.file.ai.service.ObjectService;
 import com.golablur.server.file.ai.service.SendToAPIService;
 import com.golablur.server.file.loader.service.storeFileData.StoreFileDataService;
-import com.golablur.server.file.overall.domain.AIFunctionDTO;
 import com.golablur.server.file.overall.domain.FileEntity;
 import com.golablur.server.file.overall.domain.FileObjectDTO;
 import com.golablur.server.file.overall.domain.ProcessingFileObjectDTO;
@@ -25,15 +24,14 @@ public class LatentDiffusionDivider {
     @Autowired
     private SendToAPIService send;
 
-    // TODO 객체 삭제
     // 객체 삭제 후 반환
 
 
-    public FileObjectDTO deleteOneImage(ProcessingFileObjectDTO fileObject) {
+    public FileEntity deleteOneImage(ProcessingFileObjectDTO fileObject) {
         // DB에 접근하여 AIFUnctionDTO 를 채운다.
-        AIFunctionDTO aiFunctionDTO = objectService.getAIFunctionDTO(fileObject);
+        FileObjectDTO fileObjectDTO = objectService.getFileObjectDTO(fileObject);
         // AIFUnctionDTO 를 AI API 로 전송하고 처리된 파일을 반환 받는다.
-        FileEntity processedFile = send.processDeleteOneImage(aiFunctionDTO);
+        FileEntity processedFile = send.processDeleteOneImage(fileObjectDTO);
         if(processedFile == null){
             log.error("deleteOneImage process failed");
             return null;
@@ -43,28 +41,25 @@ public class LatentDiffusionDivider {
             log.error("deleteOneImage storeFile failed");
             return null;
         }
+        storeFileDataService.updateProcessedFileData(processedFile.getOriginal_File_ID());
         log.info("DeleteOneImage successful");
-        // 처리된 object 들의 processedFileID 값을 수정해준다.
-
-        return objectService.returnFileObjectByFile(processedFile);
+        return processedFile;
     }
 
 
-    public List<FileObjectDTO> deleteALotImages(List<ProcessingFileObjectDTO> fileObjectList) {
+    public List<FileEntity> deleteALotImages(List<ProcessingFileObjectDTO> fileObjectList) {
         // 하나의 이미지 처리를 반복
-        List<FileObjectDTO> processedList = new ArrayList<>();
+        List<FileEntity> processedList = new ArrayList<>();
         int cnt = 0;
         for(ProcessingFileObjectDTO fileObject : fileObjectList){
-            FileObjectDTO fileObjectDTO = deleteOneImage(fileObject);
-            if (fileObjectDTO == null) {
+            FileEntity fileEntity = deleteOneImage(fileObject);
+            if (fileEntity == null) {
                 log.error("deleteALotImages failed : index "+cnt);
             }
-            processedList.add(fileObjectDTO);
+            processedList.add(fileEntity);
             cnt++;
         }
         log.info("DeleteALotImages successful");
-        // 처리된 object 들의 processedFileID 값을 수정해준다.
-
         return processedList;
     }
 

@@ -18,20 +18,19 @@ import java.util.Map;
 @RequestMapping("/file/process/delete")
 @CrossOrigin("*")
 public class DeleteProcessRestController {
-    // TODO 객체 삭제
 
     @Autowired
     private LatentDiffusionDivider latentDiffusionDivider;
 
     // 하나의 이미지
     @RequestMapping("/one/image")
-    public FileObjectDTO deleteOneImage(ProcessingFileObjectDTO fileObject){
+    public FileEntity deleteOneImage(ProcessingFileObjectDTO fileObject){
         return latentDiffusionDivider.deleteOneImage(fileObject);
     }
 
     // 여러 장의 이미지
     @RequestMapping("/alot/images")
-    public List<FileObjectDTO> deleteALotImages(List<ProcessingFileObjectDTO> fileObjectList){
+    public List<FileEntity> deleteALotImages(List<ProcessingFileObjectDTO> fileObjectList){
         return latentDiffusionDivider.deleteALotImages(fileObjectList);
     }
 

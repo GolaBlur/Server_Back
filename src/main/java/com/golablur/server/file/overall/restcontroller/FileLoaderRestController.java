@@ -23,38 +23,22 @@ public class FileLoaderRestController {
 
 
     // 하나의 파일 업로드 및 객체 탐지 후 반환
-    @RequestMapping("/upload/one")
-    public FileObjectDTO uploadOne(FileEntity file){
+    @PostMapping("/upload/one")
+    public FileObjectDTO uploadOne(FileEntity fileEntity){
         // 업로드
-        if(loaderDivider.uploadOne(file).equals("500")) {
-            log.error("uploadOne failed");
-            return null;
-        }
+        log.info("uploadOne"+ fileEntity);
+        loaderDivider.uploadOne(fileEntity);
         // 객체 탐지 후 반환
-        FileObjectDTO fileObject = objectDetectionDivider.getObjects(file);
-        if(fileObject == null) {
-            log.error("getObjects failed");
-            return null;
-        }
-        return fileObject;
+        return objectDetectionDivider.getObjects(fileEntity);
     }
 
     // 여러 개의 파일 업로드 및 객체 탐지 후 반환
     @RequestMapping("/upload/list")
-    public List uploadList(List fileList){
+    public List<FileObjectDTO> uploadList(List<FileEntity> fileList){
         // 업로드
-        if(loaderDivider.uploadList(fileList).equals("500")){
-            log.error("uploadList failed");
-            return null;
-        }
+        loaderDivider.uploadList(fileList);
         // 객체 탐지 후 반환
-        List fileObjectList = objectDetectionDivider.getObjectsList(fileList);
-        if(fileObjectList == null) {
-            log.error("getObjectsList failed");
-            return null;
-        }
-
-        return fileObjectList;
+        return objectDetectionDivider.getObjectsList(fileList);
     }
 
     // 결과물 다운로드를 위한 파일 데이터 반환
@@ -65,16 +49,16 @@ public class FileLoaderRestController {
 
     // 그룹 결과물 다운로드를 위한 파일 데이터 반환
     @RequestMapping("/download/list")
-    public List downloadFileList(@RequestParam("Group_ID") String Group_ID){
+    public List<FileEntity> downloadFileList(@RequestParam("Group_ID") String Group_ID){
         return loaderDivider.getFileListData(Group_ID);
     }
 
 
-    // 결과물 페이지를 위한 결과물 리스트 반환
-    @RequestMapping("/get/result/list")
-    public List getResultList(@RequestParam("User_ID") String User_ID){
-        return loaderDivider.getResultList(User_ID);
-    }
 
+    // 이미지 커스텀 편집기를 통해 편집된 이미지를 DB에 저장
+    @RequestMapping("/save/custom")
+    public String saveCustomImage(@RequestParam("result") FileEntity result){
+        return loaderDivider.saveCustomImage(result);
+    }
 
 }
