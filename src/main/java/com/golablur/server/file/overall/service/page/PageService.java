@@ -2,7 +2,6 @@ package com.golablur.server.file.overall.service.page;
 
 import com.golablur.server.file.overall.domain.FileEntity;
 import com.golablur.server.file.overall.domain.FileObjectDTO;
-import com.golablur.server.file.overall.domain.ObjectEntity;
 import com.golablur.server.file.overall.mapper.FileMapper;
 import com.golablur.server.file.overall.mapper.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +56,7 @@ public class PageService {
 
         // Group_ID 가 있는 File 들 중에서 Original_File_ID 가 없는 그룹만을 가져옴
         List<String> groupList = fileMapper.getNonProcessedGroupByUser_ID(user_id);
-        log.info(groupList.toString());
+        log.info("getNonProcessedImageGroups "+groupList.toString());
         for(String group : groupList){
             List<FileObjectDTO> fileObjectDTOList = new ArrayList<>();
             List<FileEntity> fileList = fileMapper.getFileDataByGroup_ID(group);

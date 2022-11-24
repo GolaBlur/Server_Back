@@ -12,12 +12,12 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FileEntity {
-    private String File_ID;
-    private String User_ID;
-    private String Original_File_ID;
-    private String Real_File_Name;
-    private String Group_ID;
-    private String File_Extension;
-    private String Path;
-    private Date Sysdate;
+    private String file_ID;
+    private String user_ID;
+    private String original_File_ID;
+    private String real_File_Name;
+    private String group_ID;
+    private String file_Extension;
+    private String path;
+    private Date sysdate;
 }

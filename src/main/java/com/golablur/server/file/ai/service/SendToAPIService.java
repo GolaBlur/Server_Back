@@ -24,15 +24,23 @@ public class SendToAPIService {
     @Autowired
     ObjectMapper objectMapper;
 
-    @Value("${ai_api_url}")
-    private String AI_API_URL;
+    // AI API URL
+    @Value("${deepFakeUrl}")
+    private String deepFakeUrl;
+    @Value("${deleteUrl}")
+    private String deleteUrl;
+    @Value("${mosaicUrl}")
+    private String mosaicUrl;
+    @Value("${detection}")
+    private String detectionUrl;
+
 
 
     public FileEntity processFakeOneImage(FileObjectDTO fileObjectDTO) {
         log.info("Processing fake one image");
         // AI API 에서 처리 후 처리된 파일 데이터 반환받음
         return restTemplate
-                .postForEntity(AI_API_URL+"/process/deepFake/one/image", fileObjectDTO, FileEntity.class)
+                .postForEntity(deepFakeUrl+"/image/deepFake/execute", fileObjectDTO, FileEntity.class)
                 .getBody();
     }
 
@@ -40,7 +48,7 @@ public class SendToAPIService {
         log.info("Processing fake one video");
         // AI API 에서 처리 후 처리된 파일 데이터 반환받음
         return restTemplate
-                .postForEntity(AI_API_URL+"/process/deepFake/one/video", fileObjectDTO, FileEntity.class)
+                .postForEntity(deepFakeUrl+"/video/deepfake/execute", fileObjectDTO, FileEntity.class)
                 .getBody();
     }
 
@@ -50,7 +58,7 @@ public class SendToAPIService {
         log.info("Processing delete one image");
         // AI API 에서 처리 후 처리된 파일 데이터 반환받음
         return restTemplate
-                .postForEntity(AI_API_URL+"/process/delete/one/image", fileObjectDTO, FileEntity.class)
+                .postForEntity(deleteUrl+"/image/delete/execute", fileObjectDTO, FileEntity.class)
                 .getBody();
     }
 
@@ -60,7 +68,7 @@ public class SendToAPIService {
         log.info("Processing mosaic one image");
         // AI API 에서 처리 후 처리된 파일 데이터 반환받음
         return restTemplate
-                .postForEntity(AI_API_URL+"/process/mosaic/one/image", fileObjectDTO, FileEntity.class)
+                .postForEntity(mosaicUrl+"/image/mosaic/execute", fileObjectDTO, FileEntity.class)
                 .getBody();
     }
 
@@ -68,18 +76,17 @@ public class SendToAPIService {
         log.info("Processing mosaic one video");
         // AI API 에서 처리 후 처리된 파일 데이터 반환받음
         return restTemplate
-                .postForEntity(AI_API_URL+"/process/mosaic/one/video", fileObjectDTO, FileEntity.class)
+                .postForEntity(mosaicUrl+"/video/mosaic/execute", fileObjectDTO, FileEntity.class)
                 .getBody();
     }
 
 
 
     public List<ObjectEntity> detectObjects(FileEntity fileEntity) {
-        // TODO List 로 반환받을 때 오류가 발생하는지 확인 필요
         log.info("detectObjects");
         // AI API 에서 처리 후 처리된 파일 데이터 반환받음
         return (List<ObjectEntity>) restTemplate
-                .postForEntity(AI_API_URL+"/process/detection/image", fileEntity, List.class)
+                .postForEntity(detectionUrl+"/image/detection/execute", fileEntity, List.class)
                 .getBody();
     }
 

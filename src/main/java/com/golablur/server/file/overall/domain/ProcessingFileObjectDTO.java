@@ -12,6 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProcessingFileObjectDTO {
-    private String File_ID;
-    private List<String> Object_IDList;
+    private String file_ID;
+    private List<String> object_IDList;
 }

@@ -16,20 +16,6 @@ public class StoreFileDataService {
     FileMapper mapper;
 
 
-    public String storeFileList(List fileList) {
-        int cnt = 0;
-        for(Object obj : fileList){
-            FileEntity file = (FileEntity) obj;
-            cnt += mapper.uploadOriginalFile(file);
-        }
-        if(cnt != fileList.size()) {
-            log.error("일부 파일 데이터의 DB 저장을 실패했습니다.");
-            return "500";
-        }
-        log.info("파일 업로드 성공");
-        return "200";
-    }
-
     public String storeFile(FileEntity file) {
         log.info("file"+file);
         if(mapper.uploadOriginalFile(file) == 0) {

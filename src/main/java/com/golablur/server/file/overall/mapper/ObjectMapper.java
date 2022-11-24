@@ -9,16 +9,16 @@ import java.util.List;
 @Mapper
 public interface ObjectMapper {
 
-    @Insert("INSERT INTO object (Object_ID, File_ID, Object_Name, Object_Count, Path)" +
-            " VALUES (#{Object_ID}, #{File_ID}, #{Object_Name}, #{Object_Count}, #{Path})")
+    @Insert("INSERT INTO object (object_ID, file_ID, user_ID, object_Name, file_Extension, path)" +
+            " VALUES (#{object_ID}, #{file_ID}, #{user_ID}, #{object_Name}, #{file_Extension}, #{path})")
     int storeObject(ObjectEntity object);
 
-    @Delete("DELETE FROM object WHERE File_ID = #{file_id}")
+    @Delete("DELETE FROM object WHERE file_ID = #{file_id}")
     int deleteObject(FileEntity fileEntity);
 
-    @Select("SELECT * FROM object WHERE File_ID = #{File_ID}")
+    @Select("SELECT * FROM object WHERE file_ID = #{file_ID}")
     List<ObjectEntity> getDetectionObjectListByFile(FileEntity file);
 
-    @Select("SELECT * FROM object WHERE Object_ID = #{id}")
-    ObjectEntity getObjectListByObjectID(@Param("id") String Object_ID);
+    @Select("SELECT * FROM object WHERE object_ID = #{id}")
+    ObjectEntity getObjectListByObjectID(@Param("id") String object_ID);
 }

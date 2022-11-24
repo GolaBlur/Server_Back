@@ -22,7 +22,10 @@ public class ObjectService {
 
 
     public String storeObjects(List<ObjectEntity> objects) {
-        for(ObjectEntity object : objects) {
+        log.info("storeObjects : "+ objects);
+        com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+        for(Object obj : objects) {
+            ObjectEntity object= mapper.convertValue(obj, ObjectEntity.class);
             if(objectMapper.storeObject(object) == 0){
                 log.error("AIService.storeObject failed");
                 return null;
@@ -34,7 +37,9 @@ public class ObjectService {
 
     public FileObjectDTO getFileObjectDTO(ProcessingFileObjectDTO fileObject) {
         List<ObjectEntity> objectList = new ArrayList<>();
+        log.info("getFileObjectDTO fileObject : " + fileObject );
         for (String id : fileObject.getObject_IDList()) {
+            log.info(id);
             ObjectEntity object = objectMapper.getObjectListByObjectID(id);
             if(object == null){
                 log.error("ObjectService getAIFunctionDTO failed");

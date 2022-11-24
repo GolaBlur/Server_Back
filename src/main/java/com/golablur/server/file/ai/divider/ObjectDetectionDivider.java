@@ -1,9 +1,11 @@
 package com.golablur.server.file.ai.divider;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.golablur.server.file.ai.service.ObjectService;
 import com.golablur.server.file.ai.service.SendToAPIService;
 import com.golablur.server.file.overall.domain.FileEntity;
 import com.golablur.server.file.overall.domain.FileObjectDTO;
+import com.golablur.server.file.overall.domain.ObjectEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,6 +36,7 @@ public class ObjectDetectionDivider {
                                 send.detectObjects(fileEntity)
                         ).build();
         // DB에 저장
+        log.info("getObjects: "+ fileObjectDTO);
         objectService.storeObjects(fileObjectDTO.getObjectList());
         return fileObjectDTO;
     }

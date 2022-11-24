@@ -5,10 +5,7 @@ import com.golablur.server.file.overall.domain.FileEntity;
 import com.golablur.server.file.overall.domain.FileObjectDTO;
 import com.golablur.server.file.overall.domain.ProcessingFileObjectDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -24,7 +21,7 @@ public class DeleteProcessRestController {
 
     // 하나의 이미지
     @RequestMapping("/one/image")
-    public FileEntity deleteOneImage(ProcessingFileObjectDTO fileObject){
+    public FileEntity deleteOneImage(@RequestBody ProcessingFileObjectDTO fileObject){
         return latentDiffusionDivider.deleteOneImage(fileObject);
     }
 
