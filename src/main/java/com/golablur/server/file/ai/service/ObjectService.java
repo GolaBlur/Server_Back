@@ -40,7 +40,7 @@ public class ObjectService {
         log.info("getFileObjectDTO fileObject : " + fileObject );
         for (String id : fileObject.getObject_IDList()) {
             log.info(id);
-            ObjectEntity object = objectMapper.getObjectListByObjectID(id);
+            ObjectEntity object = objectMapper.getObjectByObjectID(id);
             if(object == null){
                 log.error("ObjectService getAIFunctionDTO failed");
             }

@@ -26,6 +26,7 @@ public class PageService {
 
         // 해당하는 File 을 가져와서 FileObjectDTO 생성한 후 리스트에 add
         List<FileEntity> fileList = fileMapper.getNonProcessedImageDataByUser_ID(user_id);
+        log.info("FileList: " + fileList);
         for(FileEntity file : fileList){
             list.add(FileObjectDTO.builder()
                     .file(file)

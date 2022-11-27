@@ -21,4 +21,7 @@ public interface ObjectMapper {
 
     @Select("SELECT * FROM object WHERE object_ID = #{id}")
     ObjectEntity getObjectListByObjectID(@Param("id") String object_ID);
+
+    @Select("SELECT * FROM object WHERE object_ID = #{id}")
+    ObjectEntity getObjectByObjectID(@Param("id") String id);
 }

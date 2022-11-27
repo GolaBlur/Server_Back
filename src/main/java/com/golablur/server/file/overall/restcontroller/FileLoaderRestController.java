@@ -3,7 +3,6 @@ package com.golablur.server.file.overall.restcontroller;
 import com.golablur.server.file.ai.divider.ObjectDetectionDivider;
 import com.golablur.server.file.loader.divider.LoaderDivider;
 import com.golablur.server.file.overall.domain.FileEntity;
-import com.golablur.server.file.overall.domain.FileObjectDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +47,7 @@ public class FileLoaderRestController {
 
     // 이미지 커스텀 편집기를 통해 편집된 이미지를 DB에 저장
     @RequestMapping("/save/custom")
-    public String saveCustomImage(@RequestParam("result") FileEntity result){
+    public String saveCustomImage(FileEntity result){
         return loaderDivider.saveCustomImage(result);
     }
 
