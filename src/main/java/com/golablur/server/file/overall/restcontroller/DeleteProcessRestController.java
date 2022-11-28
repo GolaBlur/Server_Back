@@ -1,9 +1,7 @@
 package com.golablur.server.file.overall.restcontroller;
 
 import com.golablur.server.file.ai.divider.LatentDiffusionDivider;
-import com.golablur.server.file.overall.domain.FileEntity;
-import com.golablur.server.file.overall.domain.FileObjectDTO;
-import com.golablur.server.file.overall.domain.ProcessingFileObjectDTO;
+import com.golablur.server.file.overall.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +28,8 @@ public class DeleteProcessRestController {
     public List<FileEntity> deleteALotImages(List<ProcessingFileObjectDTO> fileObjectList){
         return latentDiffusionDivider.deleteALotImages(fileObjectList);
     }
+
+
 
 
 }

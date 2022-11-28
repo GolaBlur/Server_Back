@@ -16,8 +16,11 @@ public interface UserMapper {
     @Select("SELECT * FROM user WHERE User_ID = #{id} and User_PW = #{pw}")
     public UserEntity login(@Param("id") String id, @Param("pw") String pw);
 
-    @Update("UPDATE user SET User_ID = #{sessionToken} WHERE User_ID = #{id}")
-    public int updateFileData(@Param("id") String id, @Param("sessionToken") String sessionToken);
+    @Update("UPDATE file SET user_ID = #{id} WHERE user_ID = #{sessionToken}")
+    int updateFileData(@Param("id") String id, @Param("sessionToken") String sessionToken);
+
+    @Update("UPDATE object SET user_ID = #{id} WHERE user_ID = #{sessionToken}")
+    int updateObjectData(@Param("id") String id, @Param("sessionToken") String sessionToken);
 
     @Select("SELECT * FROM user WHERE User_ID = #{id} and User_PW = #{pw}")
     public UserEntity findUserPw(@Param("id") String id, @Param("pw") String pw);

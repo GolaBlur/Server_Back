@@ -51,4 +51,7 @@ public class FileLoaderRestController {
         return loaderDivider.saveCustomImage(result);
     }
 
+
+
+
 }

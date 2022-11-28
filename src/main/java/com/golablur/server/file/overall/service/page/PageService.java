@@ -1,7 +1,7 @@
 package com.golablur.server.file.overall.service.page;
 
-import com.golablur.server.file.overall.domain.FileEntity;
-import com.golablur.server.file.overall.domain.FileObjectDTO;
+import com.golablur.server.file.ai.divider.LatentDiffusionDivider;
+import com.golablur.server.file.overall.domain.*;
 import com.golablur.server.file.overall.mapper.FileMapper;
 import com.golablur.server.file.overall.mapper.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +19,8 @@ public class PageService {
     FileMapper fileMapper;
     @Autowired
     ObjectMapper objectMapper;
+    @Autowired
+    LatentDiffusionDivider latentDiffusionDivider;
 
 
     public List<FileObjectDTO> getNonProcessedImages(String user_id) {
@@ -85,10 +87,11 @@ public class PageService {
         // 그룹별로 나누어 저장
         int cnt = 0;
         for(FileEntity file : processedFileList) {
+            log.info("file: "+file.toString());
             // 결과물이 아니라 원본이면 continue
             if(file.getFile_ID().equals(file.getOriginal_File_ID())) continue;
             // 처음이 아니고 그룹일 때
-            if(list.size() != 0 && list.get(cnt).size() != 0 && file.getGroup_ID() != null){
+            if(list.size() != 0 && list.get(cnt-1).size() != 0 && file.getGroup_ID() != null){
                 // 이전 파일과 같은 그룹일 때 그 리스트에 add 해줌
                 if(file.getGroup_ID().equals(list.get(cnt).get(0).getGroup_ID())){
                     List<FileEntity> fileList = list.get(cnt);
@@ -100,7 +103,8 @@ public class PageService {
                 List<FileEntity> fileList = new ArrayList<>();
                 fileList.add(file);
                 list.add(cnt, fileList);
-                cnt++;
+                cnt = cnt+1;
+                log.info("added list is : "+list.toString());
             }
         }
 
