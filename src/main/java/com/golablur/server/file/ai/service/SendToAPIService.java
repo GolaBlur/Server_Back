@@ -1,5 +1,6 @@
 package com.golablur.server.file.ai.service;
 
+import com.golablur.server.file.overall.domain.DeepFakeFileEntityDTO;
 import com.golablur.server.file.overall.domain.FileEntity;
 import com.golablur.server.file.overall.domain.FileObjectDTO;
 import com.golablur.server.file.overall.domain.ObjectEntity;
@@ -36,19 +37,19 @@ public class SendToAPIService {
 
 
 
-    public FileEntity processFakeOneImage(FileObjectDTO fileObjectDTO) {
+    public FileEntity processFakeOneImage(DeepFakeFileEntityDTO deepFakeFileEntityDTO) {
         log.info("Processing fake one image");
         // AI API 에서 처리 후 처리된 파일 데이터 반환받음
         return restTemplate
-                .postForEntity(deepFakeUrl+"/image/deepFake/execute", fileObjectDTO, FileEntity.class)
+                .postForEntity(deepFakeUrl+"/image/deepFake/execute", deepFakeFileEntityDTO, FileEntity.class)
                 .getBody();
     }
 
-    public FileEntity processFakeOneVideo(FileObjectDTO fileObjectDTO) {
+    public FileEntity processFakeOneVideo(DeepFakeFileEntityDTO deepFakeFileEntityDTO) {
         log.info("Processing fake one video");
         // AI API 에서 처리 후 처리된 파일 데이터 반환받음
         return restTemplate
-                .postForEntity(deepFakeUrl+"/video/deepfake/execute", fileObjectDTO, FileEntity.class)
+                .postForEntity(deepFakeUrl+"/video/deepfake/execute", deepFakeFileEntityDTO, FileEntity.class)
                 .getBody();
     }
 
@@ -89,5 +90,6 @@ public class SendToAPIService {
                 .postForEntity(detectionUrl+"/image/detection/execute", fileEntity, List.class)
                 .getBody();
     }
+
 
 }

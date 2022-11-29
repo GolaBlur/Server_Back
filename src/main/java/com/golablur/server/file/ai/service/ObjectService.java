@@ -60,4 +60,12 @@ public class ObjectService {
                 .build();
     }
 
+    public DeepFakeFileEntityDTO getDeepFakeFileEntity(DeepFakeDTO deepFakeDTO) {
+        return DeepFakeFileEntityDTO.builder()
+                .file(fileMapper.getFileDataByFile_ID(deepFakeDTO.getFile_ID()))
+                .source_file(fileMapper.getFileDataByFile_ID(deepFakeDTO.getSource_file_ID()))
+                .target_file(fileMapper.getFileDataByFile_ID(deepFakeDTO.getTarget_file_ID()))
+                .build();
+    }
+
 }
