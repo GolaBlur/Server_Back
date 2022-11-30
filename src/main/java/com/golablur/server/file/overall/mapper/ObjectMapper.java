@@ -13,8 +13,8 @@ public interface ObjectMapper {
             " VALUES (#{object_ID}, #{file_ID}, #{user_ID}, #{object_Name}, #{file_Extension}, #{path})")
     int storeObject(ObjectEntity object);
 
-    @Delete("DELETE FROM object WHERE file_ID = #{file_id}")
-    int deleteObject(FileEntity fileEntity);
+    @Delete("DELETE FROM object WHERE file_ID = #{id}")
+    int deleteObject(@Param("id") String file_id);
 
     @Select("SELECT * FROM object WHERE file_ID = #{file_ID}")
     List<ObjectEntity> getDetectionObjectListByFile(FileEntity file);

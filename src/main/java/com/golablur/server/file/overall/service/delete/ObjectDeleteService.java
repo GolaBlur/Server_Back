@@ -14,7 +14,8 @@ public class ObjectDeleteService {
     private ObjectMapper objectMapper;
 
 
-    public int deleteObjectsByFileID(FileEntity file) {
-        return objectMapper.deleteObject(file);
+    public int deleteObjectsByFileID(String file_ID) {
+        return objectMapper.deleteObject(file_ID);
     }
+
 }

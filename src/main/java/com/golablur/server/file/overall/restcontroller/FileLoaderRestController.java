@@ -3,6 +3,7 @@ package com.golablur.server.file.overall.restcontroller;
 import com.golablur.server.file.ai.divider.ObjectDetectionDivider;
 import com.golablur.server.file.loader.divider.LoaderDivider;
 import com.golablur.server.file.overall.domain.FileEntity;
+import com.golablur.server.file.overall.service.delete.FileDeleteService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,8 @@ public class FileLoaderRestController {
     private LoaderDivider loaderDivider;
     @Autowired
     private ObjectDetectionDivider objectDetectionDivider;
+    @Autowired
+    private FileDeleteService fileDeleteService;
 
 
     // 하나의 파일 업로드 및 객체 탐지 후 반환
@@ -51,7 +54,15 @@ public class FileLoaderRestController {
         return loaderDivider.saveCustomImage(result);
     }
 
+    @RequestMapping("/delete/one")
+    public String deleteOne(@RequestParam("file_ID") String file_ID){
+        return fileDeleteService.deleteAFileByFileID(file_ID);
+    }
 
+    @RequestMapping("/delete/group")
+    public String deleteGroup(@RequestParam("group_ID") String group_ID){
+        return fileDeleteService.deleteFileGroupByFileID(group_ID);
+    }
 
 
 }

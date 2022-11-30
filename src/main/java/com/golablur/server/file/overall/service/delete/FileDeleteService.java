@@ -21,9 +21,42 @@ public class FileDeleteService {
         List fileList = fileMapper.getFileDataByUser_ID(user_id);
         for(Object obj : fileList) {
             FileEntity file = (FileEntity) obj;
-            objectDeleteService.deleteObjectsByFileID(file);
+            objectDeleteService.deleteObjectsByFileID(file.getFile_ID());
         }
-        return fileMapper.deleteFile(user_id);
+        return fileMapper.deleteFileByUser_ID(user_id);
+    }
+
+    public String deleteAFileByFileID(String file_id){
+        int s = objectDeleteService.deleteObjectsByFileID(file_id);
+        if(s == 0) {
+            log.error("object delete failed");
+            return "500";
+        }
+        s = fileMapper.deleteFileByFile_ID(file_id);
+        if(s == 0) {
+            log.error("File delete failed");
+            return "500";
+        }
+        return "200";
+    }
+
+    public String deleteFileGroupByFileID(String group_id){
+        List fileList = fileMapper.getFileDataByGroup_ID(group_id);
+        int s = 0;
+        for(Object obj : fileList) {
+            FileEntity file = (FileEntity) obj;
+            s = objectDeleteService.deleteObjectsByFileID(file.getFile_ID());
+            if(s == 0) {
+                log.error("object delete failed");
+                return "500";
+            }
+        }
+        s = fileMapper.deleteFileGroup(group_id);
+        if(s == 0) {
+            log.error("File delete failed");
+            return "500";
+        }
+        return "200";
     }
 
 }

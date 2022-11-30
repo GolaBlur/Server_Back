@@ -34,7 +34,7 @@ public interface FileMapper {
 
 
     @Delete("DELETE FROM file WHERE user_ID = #{id}")
-    int deleteFile(@Param("id") String user_id);
+    int deleteFileByUser_ID(@Param("id") String user_id);
 
     @Select("SELECT DISTINCT group_ID FROM file WHERE user_ID = #{id} and original_File_ID IS NULL and group_ID IS NOT NULL Order by sysdate")
     List<String> getNonProcessedGroupByUser_ID(@Param("id") String user_id);
@@ -54,4 +54,11 @@ public interface FileMapper {
 
     @Update("UPDATE file SET original_File_ID = #{id} WHERE file_ID = #{id}")
     int updateProcessedFileData(@Param("id") String original_id);
+
+
+    @Delete("DELETE FROM file WHERE group_ID = #{id}")
+    int deleteFileGroup(@Param("id") String group_id);
+
+    @Delete("DELETE FROM file WHERE file_ID = #{id}")
+    int deleteFileByFile_ID(@Param("id") String file_id);
 }
