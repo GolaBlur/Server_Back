@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -54,29 +56,44 @@ public class PageService {
         return list;
     }
 
-    public List<List<FileObjectDTO>> getNonProcessedImageGroups(String user_id) {
-        List<List<FileObjectDTO>> list = new ArrayList<>();
+    public List<GroupFileObjectNameDTO> getNonProcessedImageGroups(String user_id) {
+        List<GroupFileObjectNameDTO> list = new ArrayList<>();
 
         // Group_ID 가 있는 File 들 중에서 Original_File_ID 가 없는 그룹만을 가져옴
         List<String> groupList = fileMapper.getNonProcessedGroupByUser_ID(user_id);
         log.info("getNonProcessedImageGroups "+groupList.toString());
         for(String group : groupList){
-            List<FileObjectDTO> fileObjectDTOList = new ArrayList<>();
             List<FileEntity> fileList = fileMapper.getFileDataByGroup_ID(group);
-
-            for(FileEntity file : fileList){
-                fileObjectDTOList.add(
-                        FileObjectDTO.builder()
-                                .file(file)
-                                .objectList(objectMapper.getDetectionObjectListByFile(file))
-                                .build()
-                );
-            }
-            list.add(fileObjectDTOList);
+            list.add(
+                    GroupFileObjectNameDTO.builder()
+                            .groupFileEntity(fileList)
+                            .objectNameList(getObjectNameList(fileList))
+                            .build()
+            );
         }
+
+        log.info("response :  "+list.toString());
 
         return list;
     }
+
+    private List<String> getObjectNameList(List<FileEntity> fileList) {
+        // fileList 의 object 이름들을 중복을 제거하여 반환
+        List<String> list = new ArrayList<String>();
+        Set<String> set = new HashSet<>();
+        for(FileEntity file : fileList){
+            List<String> nameList = objectMapper.getObjectNameByFile(file);
+            for(String name : nameList){
+                set.add(name);
+            }
+        }
+        // 세트를 리스트로 변환
+        for(String name : set){
+            list.add(name);
+        }
+        return list;
+    }
+
 
     public List<List<FileEntity>> getResulFiletList(String user_id) {
         List<List<FileEntity>> list = new ArrayList<>();
@@ -110,5 +127,7 @@ public class PageService {
 
         return list;
     }
+
+
 
 }

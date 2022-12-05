@@ -9,8 +9,10 @@ import java.util.List;
 @Mapper
 public interface ObjectMapper {
 
-    @Insert("INSERT INTO object (object_ID, file_ID, user_ID, object_Name, file_Extension, path)" +
-            " VALUES (#{object_ID}, #{file_ID}, #{user_ID}, #{object_Name}, #{file_Extension}, #{path})")
+    @Insert("INSERT INTO object (object_ID, file_ID, user_ID, object_Name, file_Extension, path" +
+            ", xtl, ytl, xbr, ybr)" +
+            " VALUES (#{object_ID}, #{file_ID}, #{user_ID}, #{object_Name}, #{file_Extension}, #{path}" +
+            ", #{xtl}, #{ytl}, #{xbr}, #{ybr})")
     int storeObject(ObjectEntity object);
 
     @Delete("DELETE FROM object WHERE file_ID = #{id}")
@@ -22,4 +24,6 @@ public interface ObjectMapper {
     @Select("SELECT * FROM object WHERE object_ID = #{id}")
     ObjectEntity getObjectByObjectID(@Param("id") String id);
 
+    @Select("SELECT object_Name FROM object WHERE file_ID = #{file_ID}")
+    List<String> getObjectNameByFile(FileEntity file);
 }

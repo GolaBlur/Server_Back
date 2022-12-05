@@ -28,10 +28,6 @@ public class FileDeleteService {
 
     public String deleteAFileByFileID(String file_id){
         int s = objectDeleteService.deleteObjectsByFileID(file_id);
-        if(s == 0) {
-            log.error("object delete failed");
-            return "500";
-        }
         s = fileMapper.deleteFileByFile_ID(file_id);
         if(s == 0) {
             log.error("File delete failed");
@@ -46,10 +42,6 @@ public class FileDeleteService {
         for(Object obj : fileList) {
             FileEntity file = (FileEntity) obj;
             s = objectDeleteService.deleteObjectsByFileID(file.getFile_ID());
-            if(s == 0) {
-                log.error("object delete failed");
-                return "500";
-            }
         }
         s = fileMapper.deleteFileGroup(group_id);
         if(s == 0) {

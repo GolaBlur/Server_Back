@@ -2,6 +2,7 @@ package com.golablur.server.file.overall.restcontroller;
 
 import com.golablur.server.file.overall.domain.FileEntity;
 import com.golablur.server.file.overall.domain.FileObjectDTO;
+import com.golablur.server.file.overall.domain.GroupFileObjectNameDTO;
 import com.golablur.server.file.overall.service.page.PageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class PageRestController {
     }
 
     @RequestMapping("/list/image/editor")
-    public List<List<FileObjectDTO>> listImageEditor(@RequestParam("id") String User_ID){
+    public List<GroupFileObjectNameDTO> listImageEditor(@RequestParam("id") String User_ID){
         // 유저의 파일 중 그룹으로 구성된 파일들과 객체들을 그룹 별로 리스트로 묶어 보내준다.
         return pageService.getNonProcessedImageGroups(User_ID);
     }
