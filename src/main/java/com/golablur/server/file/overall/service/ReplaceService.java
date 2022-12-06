@@ -16,7 +16,8 @@ public class ReplaceService {
     public String replaceResult(ReplaceResultDTO replaceResultDTO) {
         // 객체를 삭제한 결과물을 편집까지 완료된 결과물로 대체한다.
         log.info("Replace result");
-        if(mapper.replaceFileEntity(replaceResultDTO.getFile_ID(),replaceResultDTO.getFileEntity())==0){
+        log.info(replaceResultDTO.toString());
+        if(mapper.replaceFileEntity(replaceResultDTO)==0){
             log.info("ReplaceResult Failed");
             return "500";
         }

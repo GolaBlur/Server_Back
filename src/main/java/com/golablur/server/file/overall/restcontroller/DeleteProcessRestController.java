@@ -35,8 +35,16 @@ public class DeleteProcessRestController {
 
     // 클라이언트에서 유저가 삭제 후 저장버튼을 클릭했을 때
     @RequestMapping("/edit/image/save")
-    public String saveEditedImage(@RequestBody ReplaceResultDTO replaceResultDTO){
-        return replaceService.replaceResult(replaceResultDTO);
+    public String saveEditedImage(@RequestParam("file_ID") String file_ID,
+                                  @RequestParam("change_ID") String change_ID,
+                                  @RequestParam("change_Path") String path){
+        return replaceService.replaceResult(ReplaceResultDTO.builder()
+                        .file_ID(file_ID)
+                        .fileEntity(
+                                FileEntity.builder()
+                                .file_ID(change_ID)
+                                .path(path).build())
+                        .build());
     }
 
 
