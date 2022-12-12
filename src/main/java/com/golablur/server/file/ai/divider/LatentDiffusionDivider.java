@@ -31,6 +31,7 @@ public class LatentDiffusionDivider {
         // DB에 접근하여 AIFUnctionDTO 를 채운다.
         FileObjectDTO fileObjectDTO = objectService.getFileObjectDTO(fileObject);
         // AIFUnctionDTO 를 AI API 로 전송하고 처리된 파일을 반환 받는다.
+        log.info("deleteOneImage - before send : " + fileObjectDTO.toString());
         FileEntity processedFile = send.processDeleteOneImage(fileObjectDTO);
         if(processedFile == null){
             log.error("deleteOneImage process failed");

@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DeepFakeFileEntityDTO {
-    private FileEntity file;
     private FileEntity source_file;
-    private FileEntity target_file;
+    private ObjectEntity target_file;
 }

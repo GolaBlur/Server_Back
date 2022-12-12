@@ -5,11 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReplaceResultDTO {
-    private String file_ID;
-    private FileEntity fileEntity;
+public class DeepFakeGroupEntityDTO {
+    private List<FileEntity> sourceFileEntityList;
+    private ObjectEntity targetFileEntity;
 }

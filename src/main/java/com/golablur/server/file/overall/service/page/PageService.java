@@ -129,5 +129,11 @@ public class PageService {
     }
 
 
+    public DeepFakeSourceTargetDTO getDeepFakeFileEntity(String sourceFileId) {
+        return DeepFakeSourceTargetDTO.builder()
+                .source(fileMapper.getFileDataByFile_ID(sourceFileId))
+                .target(objectMapper.getDeepFakeFileBySourceFile_ID(sourceFileId))
+                .build();
+    }
 
 }

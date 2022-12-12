@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeepFakeDTO {
-    private String source_file_ID;
-    private String target_file_ID;
+public class FileID_FileEntityDTO {
+    private String file_ID;
+    private FileEntity fileEntity;
 }

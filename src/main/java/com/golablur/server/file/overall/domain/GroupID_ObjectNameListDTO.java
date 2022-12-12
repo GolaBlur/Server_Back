@@ -5,11 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeepFakeDTO {
-    private String source_file_ID;
-    private String target_file_ID;
+public class GroupID_ObjectNameListDTO {
+    private String groupID;
+    private List<String> objectNameList;
 }

@@ -1,8 +1,6 @@
 package com.golablur.server.file.overall.restcontroller;
 
-import com.golablur.server.file.overall.domain.FileEntity;
-import com.golablur.server.file.overall.domain.FileObjectDTO;
-import com.golablur.server.file.overall.domain.GroupFileObjectNameDTO;
+import com.golablur.server.file.overall.domain.*;
 import com.golablur.server.file.overall.service.page.PageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,4 +45,18 @@ public class PageRestController {
         return pageService.getResulFiletList(User_ID);
     }
 
+    @RequestMapping("/deepfake/one")
+    public DeepFakeSourceTargetDTO deepFakePage(@RequestParam("source_file_ID") String source_file_ID){
+        // 딥페이크 페이지를 위한 엔드 포인트
+        log.info("deepFakePage");
+        log.info("source_file_ID : "+source_file_ID);
+        return pageService.getDeepFakeFileEntity(source_file_ID);
+    }
+
+//    @RequestMapping("/deepfake/group")
+//    public DeepFakeSourceGroupDTO deepFakeGroupPage(@RequestParam("source_file_group_ID") String source_file_group_ID){
+//        log.info("deepFakeGroupPage");
+//        log.info("source_file_group_ID : " + source_file_group_ID);
+//        return pageService.getDeepFakeFileGroupEntity(source_file_group_ID);
+//    }
 }

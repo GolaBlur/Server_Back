@@ -1,8 +1,7 @@
 package com.golablur.server.file.overall.mapper;
 
 import com.golablur.server.file.overall.domain.FileEntity;
-import com.golablur.server.file.overall.domain.ReplaceResultDTO;
-import com.golablur.server.file.overall.service.ReplaceService;
+import com.golablur.server.file.overall.domain.FileID_FileEntityDTO;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -65,5 +64,5 @@ public interface FileMapper {
     int deleteFileByFile_ID(@Param("id") String file_id);
 
     @Update("UPDATE file SET file_ID=#{fileEntity.file_ID}, path=#{fileEntity.path}  WHERE file_ID= #{file_ID}")
-    int replaceFileEntity(ReplaceResultDTO replaceResultDTO);
+    int replaceFileEntity(FileID_FileEntityDTO fileIDFileEntityDTO);
 }

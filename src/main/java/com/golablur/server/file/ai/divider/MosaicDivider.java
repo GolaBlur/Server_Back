@@ -3,9 +3,8 @@ package com.golablur.server.file.ai.divider;
 import com.golablur.server.file.ai.service.ObjectService;
 import com.golablur.server.file.ai.service.SendToAPIService;
 import com.golablur.server.file.loader.service.storeFileData.StoreFileDataService;
-import com.golablur.server.file.overall.domain.FileEntity;
-import com.golablur.server.file.overall.domain.FileObjectDTO;
-import com.golablur.server.file.overall.domain.ProcessingFileObjectDTO;
+import com.golablur.server.file.overall.domain.*;
+import com.golablur.server.file.overall.mapper.FileMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,7 +22,8 @@ public class MosaicDivider {
     private StoreFileDataService storeFileDataService;
     @Autowired
     private SendToAPIService send;
-
+    @Autowired
+    private FileMapper fileMapper;
 
     //
 
@@ -66,18 +66,35 @@ public class MosaicDivider {
         return processedFile;
     }
 
-    public List<FileEntity> mosaicALotImages(List<ProcessingFileObjectDTO> fileObjectList) {
-        // 하나의 이미지 처리를 반복
-        List<FileEntity> processedList = new ArrayList<>();
+    public List<FileEntity> mosaicALotImages(GroupID_ObjectNameListDTO groupIDObjectIDListDTO) {
+
         int cnt = 0;
-        for(ProcessingFileObjectDTO fileObject : fileObjectList){
-            FileEntity fileEntity = mosaicOneImage(fileObject);
-            if (fileEntity == null) {
-                log.error("mosaicALotImages failed : index "+cnt);
-            }
-            processedList.add(fileEntity);
-            cnt++;
+        // 이미지별 객체에 대한 리스트
+        List<FileObjectDTO> processList = new ArrayList<>();
+
+        // 그룹 이미지 가져오기
+        List<FileEntity> groupFileEntity = fileMapper.getFileDataByGroup_ID(groupIDObjectIDListDTO.getGroupID());
+
+        // 그룹 내 파일별로 객체 이름이 같은 객체들의 entity 가져와서 구성하기
+        for(FileEntity fileEntity : groupFileEntity){
+            List<ObjectEntity> objectEntityList =
+                    objectService.getObjectsByName(fileEntity, groupIDObjectIDListDTO.getObjectNameList());
+
+            processList.add(FileObjectDTO.builder().file(fileEntity).objectList(objectEntityList).build());
         }
+
+        // 하나의 이미지 처리를 반복
+        List<FileEntity> processedList = send.mosaicGroupImage(processList);
+
+
+//        for(ProcessingFileObjectDTO fileObject : fileObjectList){
+//            FileEntity fileEntity = mosaicOneImage(fileObject);
+//            if (fileEntity == null) {
+//                log.error("mosaicALotImages failed : index "+cnt);
+//            }
+//            processedList.add(fileEntity);
+//            cnt++;
+//        }
         log.info("MosaicALotImages successful");
         return processedList;
     }

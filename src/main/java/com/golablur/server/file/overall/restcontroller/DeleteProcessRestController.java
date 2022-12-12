@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 
 @RestController
@@ -38,7 +37,7 @@ public class DeleteProcessRestController {
     public String saveEditedImage(@RequestParam("file_ID") String file_ID,
                                   @RequestParam("change_ID") String change_ID,
                                   @RequestParam("change_Path") String path){
-        return replaceService.replaceResult(ReplaceResultDTO.builder()
+        return replaceService.replaceResult(FileID_FileEntityDTO.builder()
                         .file_ID(file_ID)
                         .fileEntity(
                                 FileEntity.builder()

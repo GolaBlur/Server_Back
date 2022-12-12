@@ -46,6 +46,8 @@ public class ObjectService {
             }
             objectList.add(object);
         }
+        log.info("objectList");
+        log.info(objectList.toString());
         return FileObjectDTO.builder()
                 .file(fileMapper.getFileDataByFile_ID(fileObject.getFile_ID()))
                 .objectList(objectList)
@@ -62,10 +64,27 @@ public class ObjectService {
 
     public DeepFakeFileEntityDTO getDeepFakeFileEntity(DeepFakeDTO deepFakeDTO) {
         return DeepFakeFileEntityDTO.builder()
-                .file(fileMapper.getFileDataByFile_ID(deepFakeDTO.getFile_ID()))
                 .source_file(fileMapper.getFileDataByFile_ID(deepFakeDTO.getSource_file_ID()))
-                .target_file(fileMapper.getFileDataByFile_ID(deepFakeDTO.getTarget_file_ID()))
+                .target_file(objectMapper.getDeepFakeFileBySourceFile_ID(deepFakeDTO.getSource_file_ID()))
                 .build();
+    }
+
+
+    public int storeObject(ObjectEntity objectEntity) {
+        return objectMapper.storeObject(objectEntity);
+    }
+
+    public int getPersonCntByFileID(String fileId) {
+        return objectMapper.getPersonObjectByFile(fileId).size();
+    }
+
+
+    public List<ObjectEntity> getObjectsByName(FileEntity fileEntity, List<String> objectNameList) {
+        List<ObjectEntity> objects = new ArrayList<ObjectEntity>();
+        for(String objectName : objectNameList){
+            objects.addAll(objectMapper.getObjectByObjectName(fileEntity.getFile_ID(), objectName));
+        }
+        return objects;
     }
 
 }

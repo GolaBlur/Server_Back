@@ -1,9 +1,6 @@
 package com.golablur.server.file.ai.service;
 
-import com.golablur.server.file.overall.domain.DeepFakeFileEntityDTO;
-import com.golablur.server.file.overall.domain.FileEntity;
-import com.golablur.server.file.overall.domain.FileObjectDTO;
-import com.golablur.server.file.overall.domain.ObjectEntity;
+import com.golablur.server.file.overall.domain.*;
 import com.golablur.server.file.overall.mapper.FileMapper;
 import com.golablur.server.file.overall.mapper.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +38,7 @@ public class SendToAPIService {
         log.info("Processing fake one image");
         // AI API 에서 처리 후 처리된 파일 데이터 반환받음
         return restTemplate
-                .postForEntity(deepFakeUrl+"/image/deepFake/execute", deepFakeFileEntityDTO, FileEntity.class)
+                .postForEntity(deepFakeUrl+"/image/deepfake/execute", deepFakeFileEntityDTO, FileEntity.class)
                 .getBody();
     }
 
@@ -92,4 +89,17 @@ public class SendToAPIService {
     }
 
 
+    public List<FileEntity> processFakeGroupImage(DeepFakeGroupEntityDTO deepFakeGroupEntityDTO) {
+        log.info("processFakeGroupImage");
+        return (List<FileEntity>) restTemplate
+                .postForEntity(deepFakeUrl+"/group/images/deepfake/execute", deepFakeGroupEntityDTO, List.class)
+                .getBody();
+    }
+
+    public List<FileEntity> mosaicGroupImage(List<FileObjectDTO> processList) {
+        log.info("mosaicGroupImage");
+        return (List<FileEntity>) restTemplate
+               .postForEntity(mosaicUrl+"/group/images/mosaic/execute", processList, List.class)
+               .getBody();
+    }
 }
