@@ -36,4 +36,7 @@ public interface ObjectMapper {
 
     @Select("SELECT * FROM object WHERE file_ID = #{id} and object_Name = #{objectName}")
     List<ObjectEntity> getObjectByObjectName(@Param("id") String FileID, @Param("objectName") String objectName);
+
+    @Select("SELECT * FROM object WHERE file_ID = #{group_ID}")
+    ObjectEntity getObjectByGroup_ID(@Param("group_ID") String sourceFileGroupId);
 }

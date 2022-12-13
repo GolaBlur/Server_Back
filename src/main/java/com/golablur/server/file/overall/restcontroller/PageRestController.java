@@ -53,10 +53,11 @@ public class PageRestController {
         return pageService.getDeepFakeFileEntity(source_file_ID);
     }
 
-//    @RequestMapping("/deepfake/group")
-//    public DeepFakeSourceGroupDTO deepFakeGroupPage(@RequestParam("source_file_group_ID") String source_file_group_ID){
-//        log.info("deepFakeGroupPage");
-//        log.info("source_file_group_ID : " + source_file_group_ID);
-//        return pageService.getDeepFakeFileGroupEntity(source_file_group_ID);
-//    }
+    @RequestMapping("/deepfake/group")
+    public DeepFakeSourceTargetGroupDTO deepFakeGroupPage(@RequestParam("source_file_group_ID") String source_file_group_ID){
+        log.info("deepFakeGroupPage");
+        log.info("source_file_group_ID : " + source_file_group_ID);
+        return pageService.getDeepFakeFileGroupEntity(source_file_group_ID);
+    }
+
 }

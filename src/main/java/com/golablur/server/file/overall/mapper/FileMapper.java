@@ -40,7 +40,7 @@ public interface FileMapper {
     @Select("SELECT DISTINCT group_ID FROM file WHERE user_ID = #{id} and original_File_ID IS NULL and group_ID IS NOT NULL Order by sysdate")
     List<String> getNonProcessedGroupByUser_ID(@Param("id") String user_id);
 
-    @Select("SELECT * FROM file WHERE user_ID = #{id} and original_File_ID IS NOT NULL Order by sysdate")
+    @Select("SELECT * FROM file WHERE user_ID = #{id} and original_File_ID IS NOT NULL and file_ID != original_File_ID Order by sysdate")
     List<FileEntity> getProcessedFileDataByUser_ID(@Param("id") String user_id);
 
     @Select("SELECT * FROM file " +

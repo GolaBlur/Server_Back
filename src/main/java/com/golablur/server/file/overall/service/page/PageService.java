@@ -98,32 +98,36 @@ public class PageService {
     public List<List<FileEntity>> getResulFiletList(String user_id) {
         List<List<FileEntity>> list = new ArrayList<>();
 
-        // Original_File_ID 가 있는 Group_ID 를 가져옴 ( Sysdate 로 정렬 됨 )
+        // Original_File_ID 가 있는 FileEntity 를 가져옴 ( Sysdate 로 정렬 됨 )
         List<FileEntity> processedFileList = fileMapper.getProcessedFileDataByUser_ID(user_id);
 
-        // 그룹별로 나누어 저장
+        // TODO 그룹별로 나누어 저장
+        List<FileEntity> group = new ArrayList<>();
         int cnt = 0;
-        for(FileEntity file : processedFileList) {
-            log.info("file: "+file.toString());
-            // 결과물이 아니라 원본이면 continue
-            if(file.getFile_ID().equals(file.getOriginal_File_ID())) continue;
-            // 처음이 아니고 그룹일 때
-            if(list.size() != 0 && list.get(cnt-1).size() != 0 && file.getGroup_ID() != null){
-                // 이전 파일과 같은 그룹일 때 그 리스트에 add 해줌
-                if(file.getGroup_ID().equals(list.get(cnt).get(0).getGroup_ID())){
-                    List<FileEntity> fileList = list.get(cnt);
-                    fileList.add(cnt, file);
-                    list.add(cnt, fileList);
+        FileEntity lastFile = new FileEntity();
+        for(FileEntity file: processedFileList){
+            log.info("This file is : "+ file.getFile_ID());
+            if(cnt == 0){
+                // 첫 파일
+                group.add(file);
+                lastFile = group.get(group.size()-1);
+            }
+            else{
+                if(file.getGroup_ID() == null || !file.getGroup_ID().equals(lastFile.getGroup_ID())){
+                    // 지난 파일과 다른 그룹일 때
+                    list.add(group);
+                    group = new ArrayList<>();
                 }
+                group.add(file);
+                lastFile = group.get(group.size()-1);
             }
-            else {
-                List<FileEntity> fileList = new ArrayList<>();
-                fileList.add(file);
-                list.add(cnt, fileList);
-                cnt = cnt+1;
-                log.info("added list is : "+list.toString());
+            if(cnt+1 == processedFileList.size()){
+                list.add(group);
+                group = new ArrayList<>();
             }
+            cnt = cnt+1;
         }
+        log.info(list.toString());
 
         return list;
     }
@@ -133,6 +137,13 @@ public class PageService {
         return DeepFakeSourceTargetDTO.builder()
                 .source(fileMapper.getFileDataByFile_ID(sourceFileId))
                 .target(objectMapper.getDeepFakeFileBySourceFile_ID(sourceFileId))
+                .build();
+    }
+
+    public DeepFakeSourceTargetGroupDTO getDeepFakeFileGroupEntity(String sourceFileGroupId) {
+        return DeepFakeSourceTargetGroupDTO.builder()
+                .sourceGroup(fileMapper.getFileDataByGroup_ID(sourceFileGroupId))
+                .target(objectMapper.getObjectByGroup_ID(sourceFileGroupId))
                 .build();
     }
 

@@ -30,9 +30,15 @@ public class FileLoaderRestController {
         // 업로드
         log.info("uploadOne"+ fileEntity);
         loaderDivider.uploadOne(fileEntity);
+        return "200";
+    }
+
+    @RequestMapping("/detect/objects")
+    public String detectObjects(@RequestParam("file_ID") String file_ID){
+        FileEntity fileEntity = loaderDivider.getOneFileData(file_ID);
         // 객체 탐지
         objectDetectionDivider.getObjects(fileEntity);
-        return "200";
+        return fileEntity.getFile_Extension();
     }
 
     // 결과물 다운로드를 위한 파일 데이터 반환

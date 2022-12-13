@@ -130,12 +130,27 @@ public class DeepFakeDivider {
     }
 
     public List<FileEntity> deepFakeALotImages(DeepFakeDTO deepFakeDTO) {
-        // group_ID 로 file_ID 가져오기
         log.info("deepFakeALotImages");
-        List<FileEntity> res = send.processFakeGroupImage(DeepFakeGroupEntityDTO.builder()
-                .sourceFileEntityList(fileMapper.getFileDataByGroup_ID(deepFakeDTO.getSource_file_ID()))
+        // group_ID 로 file_ID 가져오기
+        List<FileEntity> fileEntityList = fileMapper.getFileDataByGroup_ID(deepFakeDTO.getSource_file_ID());
+        // AI api 에 요청
+        List<FileEntity> res = (List<FileEntity>) send.processFakeGroupImage(DeepFakeGroupEntityDTO.builder()
+                .sourceFileEntityList(fileEntityList)
                 .targetFileEntity(objectMapper.getObjectByObjectID(deepFakeDTO.getTarget_file_ID()))
                 .build());
+        // 클래스 에러 해결
+        com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+        List<FileEntity> processedFileList = new ArrayList<FileEntity>();
+        for(Object object: res){
+            FileEntity file = mapper.convertValue(object, FileEntity.class);
+            processedFileList.add(file);
+        }
+        // DB에 저장
+        for(int i=0;i<fileEntityList.size();i++) {
+            storeFileDataService.storeFile(processedFileList.get(i));
+            storeFileDataService.updateProcessedFileData(fileEntityList.get(i).getFile_ID());
+        }
+        log.info("deepFakeALotImages successful");
         return res;
     }
 
@@ -169,6 +184,7 @@ public class DeepFakeDivider {
     public String uploadGroupTargetImage(FileID_FileEntityDTO fileIDFileEntityDTO) {
         log.info("uploadGroupTargetImage");
         // target image 에 사람이 있는지 검사
+        log.info("group_ID : "+fileIDFileEntityDTO.getFile_ID());
         if(checkPersonInTarget(fileIDFileEntityDTO.getFileEntity()) == 0){
             log.error("no person in target");
             return "505";
@@ -177,6 +193,7 @@ public class DeepFakeDivider {
         // 그룹 Id를 통해 file들 가져오기
         List<FileEntity> fileEntityList =
                 fileMapper.getFileDataByGroup_ID(fileIDFileEntityDTO.getFile_ID());
+        log.info("group: "+fileEntityList.toString());
         // 파일별로 사람이 있는지 검사 후 딥페이크 할 이미지만 모아두기
         List<FileEntity> processFileList = new ArrayList<>();
         for(FileEntity fileEntity : fileEntityList){
