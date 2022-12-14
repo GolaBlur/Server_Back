@@ -44,6 +44,7 @@ public class SendToAPIService {
 
     public FileEntity processFakeOneVideo(DeepFakeFileEntityDTO deepFakeFileEntityDTO) {
         log.info("Processing fake one video");
+        log.info("deepFakeFileEntityDTO: " + deepFakeFileEntityDTO.toString());
         // AI API 에서 처리 후 처리된 파일 데이터 반환받음
         return restTemplate
                 .postForEntity(deepFakeUrl+"/video/deepfake/execute", deepFakeFileEntityDTO, FileEntity.class)
@@ -81,7 +82,7 @@ public class SendToAPIService {
 
 
     public List<ObjectEntity> detectObjects(FileEntity fileEntity) {
-        log.info("detectObjects");
+        log.info("detectObjects : " + fileEntity.getFile_ID());
         // AI API 에서 처리 후 처리된 파일 데이터 반환받음
         return (List<ObjectEntity>) restTemplate
                 .postForEntity(detectionUrl+"/image/detection/execute", fileEntity, List.class)

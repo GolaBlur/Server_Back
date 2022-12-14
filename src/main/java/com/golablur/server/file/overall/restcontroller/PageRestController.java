@@ -30,6 +30,7 @@ public class PageRestController {
     @RequestMapping("/video/editor")
     public List<FileObjectDTO> videoEditor(@RequestParam("id") String User_ID){
         // mp4
+        log.info("videoEditor");
         return pageService.getNonProcessedVideos(User_ID);
     }
 

@@ -49,7 +49,7 @@ public class MosaicDivider {
 
     public FileEntity mosaicOneVideo(ProcessingFileObjectDTO fileObject) {
         // DB에 접근하여 AIFUnctionDTO 를 채운다.
-        FileObjectDTO fileObjectDTO = objectService.getFileObjectDTO(fileObject);
+        FileObjectDTO fileObjectDTO = objectService.getFileObjectDTOByObjectName(fileObject);
         // AIFUnctionDTO 를 AI API 로 전송하고 처리된 파일을 반환 받는다.
         FileEntity processedFile = send.processMosaicOneVideo(fileObjectDTO);
         if(processedFile == null){
@@ -82,20 +82,23 @@ public class MosaicDivider {
 
             processList.add(FileObjectDTO.builder().file(fileEntity).objectList(objectEntityList).build());
         }
-
+        log.info("processList: " + processList.toString());
         // 하나의 이미지 처리를 반복
         List<FileEntity> processedList = send.mosaicGroupImage(processList);
 
+        com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+        for (Object object : processedList) {
+            FileEntity processedFile = mapper.convertValue(object, FileEntity.class);
+            // 처리된 파일을 DB에 저장한다.
+            if (storeFileDataService.storeFile(processedFile).equals("500")) {
+                log.error("mosaic image storeFile failed");
+                return null;
+            }
+            storeFileDataService.updateProcessedFileData(processedFile.getOriginal_File_ID());
+        }
 
-//        for(ProcessingFileObjectDTO fileObject : fileObjectList){
-//            FileEntity fileEntity = mosaicOneImage(fileObject);
-//            if (fileEntity == null) {
-//                log.error("mosaicALotImages failed : index "+cnt);
-//            }
-//            processedList.add(fileEntity);
-//            cnt++;
-//        }
         log.info("MosaicALotImages successful");
+        log.info(processedList.toString());
         return processedList;
     }
 

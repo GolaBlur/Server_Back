@@ -42,17 +42,19 @@ public class PageService {
     }
 
     public List<FileObjectDTO> getNonProcessedVideos(String user_id){
+        log.info("getNonProcessedVideos");
         List<FileObjectDTO> list = new ArrayList<>();
-
         // 해당하는 File 을 가져와서 FileObjectDTO 생성한 후 리스트에 add
         List<FileEntity> fileList = fileMapper.getNonProcessedVideoByUser_ID(user_id);
+        log.info("FileList: " + fileList.toString());
         for(FileEntity file : fileList){
             list.add(FileObjectDTO.builder()
                     .file(file)
                     .objectList(objectMapper.getDetectionObjectListByFile(file))
                     .build());
         }
-
+        log.info("list : " + list.toString());
+        log.info("getNonProcessedVideos Success");
         return list;
     }
 

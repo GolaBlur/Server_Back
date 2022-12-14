@@ -80,11 +80,31 @@ public class ObjectService {
 
 
     public List<ObjectEntity> getObjectsByName(FileEntity fileEntity, List<String> objectNameList) {
-        List<ObjectEntity> objects = new ArrayList<ObjectEntity>();
+        List<ObjectEntity> objects = new ArrayList<>();
         for(String objectName : objectNameList){
-            objects.addAll(objectMapper.getObjectByObjectName(fileEntity.getFile_ID(), objectName));
+            log.info("objectName: " + objectName);
+            List<ObjectEntity> objectList = objectMapper.getObjectByObjectName(fileEntity.getFile_ID(), objectName);
+            log.info("objectList size: " + objectList.size());
+            objects.addAll(objectList);
         }
+        log.info("objects: " + objects.size());
         return objects;
+    }
+
+    public FileObjectDTO getFileObjectDTOByObjectName(ProcessingFileObjectDTO fileObject) {
+        log.info("getFileObjectDTOByObjectName");
+        List<ObjectEntity> objectEntityList = new ArrayList<>();
+        for(String objectName : fileObject.getObject_IDList()){
+            log.info("objectName: " + objectName);
+            List<ObjectEntity> object = objectMapper.getObjectByObjectName(fileObject.getFile_ID(), objectName);
+            log.info("object: " + object.toString());
+            objectEntityList.add(object.get(0));
+        }
+        log.info("objectEntityList : " + objectEntityList.toString());
+        return FileObjectDTO.builder()
+                .file(fileMapper.getFileDataByFile_ID(fileObject.getFile_ID()))
+                .objectList(objectEntityList)
+                .build();
     }
 
 }

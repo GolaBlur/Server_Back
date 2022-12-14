@@ -32,14 +32,14 @@ public class MosaicProcessRestController {
 
     // 하나의 비디오
     @RequestMapping("/one/video")
-    public FileEntity mosaicOneVideo(ProcessingFileObjectDTO fileObject){
+    public FileEntity mosaicOneVideo(@RequestBody ProcessingFileObjectDTO fileObject){
         return mosaicDivider.mosaicOneVideo(fileObject);
     }
 
 
     // 여러 장의 이미지
     @RequestMapping("/alot/images")
-    public List<FileEntity> mosaicALotImages(GroupID_ObjectNameListDTO groupIDObjectIDListDTO){
+    public List<FileEntity> mosaicALotImages(@RequestBody GroupID_ObjectNameListDTO groupIDObjectIDListDTO){
         return mosaicDivider.mosaicALotImages(groupIDObjectIDListDTO);
     }
 
