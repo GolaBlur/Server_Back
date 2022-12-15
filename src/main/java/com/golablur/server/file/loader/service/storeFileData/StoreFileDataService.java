@@ -27,7 +27,7 @@ public class StoreFileDataService {
     }
 
     public String updateProcessedFileData(String original_id) {
-        log.info("original_id"+original_id);
+        log.info("original_id : "+original_id);
         if(mapper.updateProcessedFileData(original_id) == 0){
             log.error("Process file data update failed");
             return "500";
